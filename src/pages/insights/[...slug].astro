@@ -1,0 +1,63 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { getSiteConfig } from '../../lib/config';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map(post => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const config = await getSiteConfig();
+---
+
+<Layout title={post.data.title}>
+  <article class="max-w-4xl mx-auto py-24 px-4">
+    <div class="mb-16">
+      <div class="flex items-center gap-4 mb-6">
+        {post.data.tags?.map((tag: string) => (
+          <span class="text-xs font-bold uppercase tracking-widest text-brand-text border border-white/10 px-3 py-1 rounded-md">{tag}</span>
+        ))}
+        {post.data.pubDate && <span class="text-xs text-brand-text font-bold uppercase tracking-widest">{new Date(post.data.pubDate).toLocaleDateString()}</span>}
+      </div>
+      <h1 class="text-4xl md:text-7xl mb-8 tracking-tight text-brand-heading" style="font-family: 'Libre Baskerville', serif; font-weight: normal;">{post.data.title}</h1>
+      {post.data.description && <p class="text-xl md:text-2xl text-brand-text font-light leading-relaxed">{post.data.description}</p>}
+    </div>
+
+    {post.data.image && (
+      <div class="aspect-video w-full rounded-3xl overflow-hidden mb-16 shadow-2xl">
+        <img src={post.data.image.url} alt={post.data.image.alt} class="w-full h-full object-cover" />
+      </div>
+    )}
+
+    <div class="prose prose-2xl prose-stone prose-headings:font-bold prose-headings:tracking-tight prose-a:text-accent prose-img:rounded-3xl max-w-none">
+      <Content />
+    </div>
+
+    <div class="mt-32 pt-16 border-t border-white/10 flex items-center gap-6">
+      <div class="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center text-3xl shadow-inner">
+        JW
+      </div>
+      <div>
+        <div class="text-sm uppercase tracking-widest text-brand-text font-bold mb-1">Author</div>
+        <div class="text-2xl font-bold text-brand-heading">{post.data.author || "Jamal Williams"}</div>
+        <p class="text-brand-text max-w-md mt-2">Engineering Manager and Visual Storyteller helping businesses build high-converting growth systems.</p>
+      </div>
+    </div>
+  </article>
+
+  <section class="py-24 px-4 bg-white/5 mt-32">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-6 text-brand-heading">Ready to write your next chapter?</h2>
+      <p class="text-brand-text mb-10">Whether you're just setting the stage or ready for your breakthrough, we have the systems to get you there.</p>
+      <a href="/contact" class="px-10 py-5 rounded-xl font-bold text-white shadow-xl bg-brand-secondary">
+        Book Your Free Strategy Session
+      </a>
+    </div>
+  </section>
+</Layout>

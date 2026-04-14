@@ -1,0 +1,233 @@
+---
+import SplitHeadingSection from './SplitHeadingSection.astro';
+import TwoColumnSection from './TwoColumnSection.astro';
+import DetailedFeatureSection from './DetailedFeatureSection.astro';
+import NarrativeCards from './NarrativeCards.astro';
+import HeaderSection from './HeaderSection.astro';
+import CenteredText from './CenteredText.astro';
+import StatsSection from './StatsSection.astro';
+import DetailsTable from './DetailsTable.astro';
+import PricingTable from './PricingTable.astro';
+import PortfolioSection from './PortfolioSection.astro';
+import Testimonials from './Testimonials.astro';
+import ProblemSolutionGrid from './ProblemSolutionGrid.astro';
+import GrowthActGrid from './GrowthActGrid.astro';
+import FeatureList from './FeatureList.astro';
+import BenefitCardGrid from './BenefitCardGrid.astro';
+import AsymmetricFeatureGrid from './AsymmetricFeatureGrid.astro';
+import ProductGrid from './ProductGrid.astro';
+import LegalSupport from './LegalSupport.astro';
+import SplitContactSection from './SplitContactSection.astro';
+import InsightGrid from './InsightGrid.astro';
+
+interface Props {
+  sections: any[];
+}
+
+const { sections } = Astro.props;
+---
+
+{sections?.map((section) => {
+  switch (section.type) {
+    case 'header-section':
+      return (
+        <HeaderSection 
+          eyebrow={section.eyebrow}
+          heading={section.heading}
+          text={section.text}
+          alignment={section.alignment}
+          backgroundVariant={section.backgroundVariant}
+          maxWidth={section.maxWidth}
+        />
+      );
+    case 'asymmetric-feature-grid':
+      return (
+        <AsymmetricFeatureGrid 
+          eyebrow={section.eyebrow}
+          heading={section.heading}
+          features={section.features}
+          backgroundVariant={section.backgroundVariant}
+        />
+      );
+    case 'split-heading':
+      return (
+        <SplitHeadingSection 
+          title={section.title}
+          text={section.text}
+          backgroundVariant={section.backgroundVariant}
+        />
+      );
+    case 'two-column':
+      return (
+        <TwoColumnSection 
+          eyebrow={section.eyebrow}
+          heading={section.heading}
+          text={section.text}
+          image={section.image}
+          imageAlt={section.imageAlt}
+          cta={section.cta}
+          ctaLink={section.ctaLink}
+          imageOnRight={section.imageOnRight}
+          backgroundVariant={section.backgroundVariant}
+        />
+      );
+    case 'detailed-feature':
+      return (
+        <DetailedFeatureSection 
+          eyebrow={section.eyebrow}
+          heading={section.heading}
+          text={section.text}
+          listItems={section.listItems}
+          statementText={section.statementText}
+          backgroundVariant={section.backgroundVariant}
+        />
+      );
+    case 'narrative-cards':
+      return (
+        <NarrativeCards 
+          eyebrow={section.eyebrow}
+          title={section.title}
+          cards={section.cards}
+          cta={section.cta}
+          ctaLink={section.ctaLink}
+          backgroundVariant={section.backgroundVariant}
+          alignment={section.alignment}
+        />
+      );
+    case 'eyebrow-title':
+      return (
+        <HeaderSection 
+          eyebrow={section.eyebrow}
+          heading={section.title}
+          text={section.text}
+          alignment={section.alignment}
+          backgroundVariant={section.backgroundVariant}
+        />
+      );
+    case 'centered-text':
+      return (
+        <CenteredText 
+          text={section.text}
+        />
+      );
+    case 'stats':
+      return (
+        <StatsSection 
+          stats={section.stats}
+          columns={section.columns}
+        />
+      );
+    case 'details-table':
+      return (
+        <DetailsTable 
+          eyebrow={section.eyebrow}
+          title={section.title}
+          rows={section.rows}
+          backgroundVariant={section.backgroundVariant}
+        />
+      );
+    case 'pricing-table':
+      return (
+        <PricingTable 
+          eyebrow={section.eyebrow}
+          heading={section.heading}
+          subheading={section.subheading}
+          cta={section.cta}
+          ctaLink={section.ctaLink}
+        />
+      );
+    case 'portfolio-section':
+      return (
+        <PortfolioSection 
+          title={section.title}
+          subtitle={section.subtitle}
+          ctaText={section.ctaText}
+          ctaLink={section.ctaLink}
+        />
+      );
+    case 'testimonials':
+      return (
+        <Testimonials 
+          title={section.title}
+          subtitle={section.subtitle}
+        />
+      );
+    case 'problem-solution-grid':
+      return (
+        <ProblemSolutionGrid 
+          heading={section.heading}
+          subheading={section.subheading}
+          problemsTitle={section.problemsTitle}
+          problems={section.problems}
+          solutionsTitle={section.solutionsTitle}
+          solutions={section.solutions}
+          backgroundVariant={section.backgroundVariant}
+        />
+      );
+    case 'growth-act-grid':
+      return (
+        <GrowthActGrid 
+          eyebrow={section.eyebrow}
+          heading={section.heading}
+          acts={section.acts}
+          backgroundVariant={section.backgroundVariant}
+        />
+      );
+    case 'feature-list':
+      return (
+        <FeatureList 
+          eyebrow={section.eyebrow}
+          heading={section.heading}
+          subheading={section.subheading}
+          items={section.items}
+          footerText={section.footerText}
+          backgroundVariant={section.backgroundVariant}
+        />
+      );
+    case 'benefit-card-grid':
+      return (
+        <BenefitCardGrid 
+          eyebrow={section.eyebrow}
+          heading={section.heading}
+          cards={section.cards}
+          backgroundVariant={section.backgroundVariant}
+        />
+      );
+    case 'product-grid':
+      return (
+        <ProductGrid 
+          products={section.products}
+          backgroundVariant={section.backgroundVariant}
+        />
+      );
+    case 'legal-support':
+      return (
+        <LegalSupport 
+          title={section.title}
+          description={section.description}
+          backgroundVariant={section.backgroundVariant}
+        />
+      );
+    case 'split-contact':
+      return (
+        <SplitContactSection 
+          heading={section.heading}
+          text={section.text}
+          email={section.email}
+          phone={section.phone}
+          hours={section.hours}
+          card={section.card}
+          backgroundVariant={section.backgroundVariant}
+        />
+      );
+    case 'insight-grid':
+      return (
+        <InsightGrid 
+          posts={section.posts}
+          backgroundVariant={section.backgroundVariant}
+        />
+      );
+    default:
+      return null;
+  }
+})}

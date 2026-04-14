@@ -1,0 +1,53 @@
+---
+import GrowthAct from './GrowthAct.astro';
+import { formatText } from '../lib/textFormatter';
+
+interface Act {
+  act: string;
+  title: string;
+  subtitle?: string;
+  description: string;
+  features: string[];
+  price?: string;
+  setup?: string;
+  variant?: 'light-brown' | 'green';
+  ctaLink?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  acts: Act[];
+  backgroundVariant?: 'default' | 'subtle';
+}
+
+const { 
+  eyebrow, 
+  heading, 
+  acts, 
+  backgroundVariant = 'default' 
+} = Astro.props;
+
+const sectionClass = backgroundVariant === 'subtle' ? 'section-subtle' : 'section-standard';
+---
+
+<section data-component="GrowthActGrid" class={sectionClass}>
+  <div class="container-wide reveal">
+    {(eyebrow || heading) && (
+      <div class="mb-16 text-center container-narrow">
+        {eyebrow && (
+          <span class="font-brand-heading eyebrow" set:html={formatText(eyebrow)}></span>
+        )}
+        {heading && (
+          <h2 class="font-brand-heading heading-lg mb-8" set:html={formatText(heading)}></h2>
+        )}
+      </div>
+    )}
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+      {acts.map((act) => (
+        <GrowthAct {...act} />
+      ))}
+    </div>
+  </div>
+</section>

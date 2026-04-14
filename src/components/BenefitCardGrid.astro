@@ -1,0 +1,54 @@
+---
+import { formatText } from '../lib/textFormatter';
+
+interface Card {
+  eyebrow?: string;
+  title: string;
+  description: string;
+  benefit: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  cards: Card[];
+  backgroundVariant?: 'default' | 'subtle';
+}
+
+const { 
+  eyebrow, 
+  heading, 
+  cards, 
+  backgroundVariant = 'default' 
+} = Astro.props;
+
+const sectionClass = backgroundVariant === 'subtle' ? 'section-subtle' : 'section-standard';
+---
+
+<section data-component="BenefitCardGrid" class={sectionClass}>
+  <div class="container-wide reveal">
+    <div class="mb-20 text-center container-narrow">
+      {eyebrow && (
+        <span class="font-brand-heading eyebrow" set:html={formatText(eyebrow)}></span>
+      )}
+      <h2 class="font-brand-heading heading-lg mb-8" set:html={formatText(heading)}></h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+      {cards.map((card) => (
+        <div class="bg-white/10 p-10 rounded-xl border-2 border-white/20 shadow-lg flex flex-col h-full group hover:border-brand-secondary/30 transition-all duration-300">
+          {card.eyebrow && (
+            <span class="font-brand-heading eyebrow !text-[10px] !mb-4" set:html={formatText(card.eyebrow)}></span>
+          )}
+          <h3 class="font-brand-heading heading-md mb-6" set:html={formatText(card.title)}></h3>
+          <p class="font-brand-body body-md mb-8 flex-grow" set:html={formatText(card.description)}></p>
+          
+          <div class="p-6 bg-brand-secondary/20 rounded-xl border border-brand-secondary/30 group-hover:bg-brand-secondary/40 transition-all">
+            <span class="font-brand-heading eyebrow !text-[10px] !mb-2">Benefit:</span>
+            <p class="font-brand-body heading-sm !font-medium leading-relaxed" set:html={formatText(card.benefit)}></p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

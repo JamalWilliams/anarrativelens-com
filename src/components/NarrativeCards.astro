@@ -1,0 +1,78 @@
+---
+import { formatText } from '../lib/textFormatter';
+
+interface Card {
+  pill: string;
+  title: string;
+  text: string;
+  link: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  cards: Card[];
+  cta?: string;
+  ctaLink?: string;
+  backgroundVariant?: 'default' | 'subtle';
+  alignment?: 'left' | 'center' | 'right';
+}
+
+const { 
+  eyebrow, 
+  title, 
+  cards, 
+  cta, 
+  ctaLink = "#",
+  backgroundVariant = 'default',
+  alignment = 'center'
+} = Astro.props;
+
+const alignmentClasses = {
+  left: 'text-left items-start',
+  center: 'text-center items-center mx-auto',
+  right: 'text-right items-end ml-auto'
+};
+
+const bgClass = backgroundVariant === 'subtle' ? 'bg-brand-bg/50' : 'bg-brand-bg';
+---
+
+<section data-component="NarrativeCards" class={`section-standard py-24 ${bgClass}`}>
+  <div class="container mx-auto px-6 reveal">
+    <!-- Header -->
+    <div class={`flex flex-col mb-20 ${alignmentClasses[alignment]}`}>
+      {eyebrow && (
+        <span class="font-brand-heading text-brand-primary text-xl mb-4 tracking-wider uppercase" set:html={formatText(eyebrow)}></span>
+      )}
+      <h2 class={`font-brand-heading text-4xl md:text-6xl text-white max-w-4xl leading-tight ${alignment === 'center' ? 'mx-auto' : ''}`} set:html={formatText(title)}></h2>
+    </div>
+
+    <!-- Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16 mb-20">
+      {cards.map((card) => (
+        <div class="flex flex-col items-start group p-8 rounded-xl border-2 border-white/20 bg-zinc-900/30 hover:border-brand-secondary/50 transition-all duration-300">
+          <div class="inline-block px-4 py-1 rounded-xl text-[10px] font-brand-heading font-bold tracking-widest uppercase bg-brand-primary/20 text-brand-primary mb-6 border border-brand-primary/30">
+            {card.pill}
+          </div>
+          <h3 class="font-brand-heading text-2xl text-white mb-4 group-hover:text-brand-secondary transition-colors" set:html={formatText(card.title)}></h3>
+          <p class="font-brand-body text-white/70 mb-8 flex-grow leading-relaxed" set:html={formatText(card.text)}></p>
+          <a href={card.link} class="font-brand-heading text-xs font-bold uppercase tracking-widest text-brand-secondary border-b-2 border-brand-secondary/30 pb-1 hover:border-brand-secondary transition-all">
+            Read More
+          </a>
+        </div>
+      ))}
+    </div>
+
+    <!-- Bottom Button -->
+    {cta && (
+      <div class="text-center pt-8">
+        <a 
+          href={ctaLink} 
+          class="px-10 py-5 bg-brand-secondary text-white font-brand-heading font-bold rounded-xl shadow-2xl transition-all transform hover:-translate-y-1 hover:scale-105 inline-block"
+        >
+          {cta}
+        </a>
+      </div>
+    )}
+  </div>
+</section>

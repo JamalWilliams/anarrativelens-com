@@ -1,0 +1,61 @@
+---
+import { formatText } from '../lib/textFormatter';
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  text?: string;
+  listItems: string[];
+  statementText?: string;
+  backgroundVariant?: 'default' | 'subtle';
+}
+
+const { 
+  eyebrow, 
+  heading, 
+  text, 
+  listItems, 
+  statementText,
+  backgroundVariant = 'default'
+} = Astro.props;
+
+const sectionClass = backgroundVariant === 'subtle' ? 'section-subtle' : 'section-standard';
+---
+
+<section data-component="DetailedFeatureSection" class={sectionClass}>
+  <div class="container-medium reveal">
+    <!-- Header Content -->
+    <div class="mb-16">
+      {eyebrow && (
+        <span class="font-brand-heading eyebrow" set:html={formatText(eyebrow)}></span>
+      )}
+      <h2 class="font-brand-heading heading-lg mb-8" set:html={formatText(heading)}></h2>
+      {text && (
+        <p class="font-brand-body body-lg max-w-3xl" set:html={formatText(text)}>
+        </p>
+      )}
+    </div>
+
+    <!-- Double Column List -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-6 mb-16">
+      {listItems.map((item) => (
+        <div class="flex items-start">
+          <div class="mt-1.5 mr-4 flex-shrink-0">
+            <svg class="w-5 h-5 text-brand-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+          </div>
+          <span class="font-brand-body body-md !text-brand-text !font-medium" set:html={formatText(item)}></span>
+        </div>
+      ))}
+    </div>
+
+    <!-- Statement Text Block -->
+    {statementText && (
+      <div class="pt-12 border-t-2 border-white/20">
+        <p class="font-brand-body heading-md italic" set:html={`"${formatText(statementText)}"`}>
+        </p>
+      </div>
+    )}
+  </div>
+</section>

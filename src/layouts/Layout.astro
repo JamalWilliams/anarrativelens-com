@@ -1,0 +1,93 @@
+---
+import { SEO } from 'astro-seo';
+import '../styles/global.css';
+import { getSiteConfig } from '../lib/config';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+const config = await getSiteConfig();
+const { title, description = config.brand.tagline } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<SEO
+			title={title}
+			titleTemplate={`%s | ${config.brand.name}`}
+			defaultTitle={config.brand.name}
+			description={description}
+			canonical={canonicalURL}
+			openGraph={{
+				basic: {
+					title: title ? `${title} | ${config.brand.name}` : config.brand.name,
+					type: "website",
+					image: "/favicon.svg",
+					url: canonicalURL.toString(),
+				},
+				optional: {
+					siteName: config.brand.name,
+					description: description,
+				}
+			}}
+			twitter={{
+				card: "summary_large_image",
+				title: title ? `${title} | ${config.brand.name}` : config.brand.name,
+				description: description,
+				image: "/favicon.svg",
+			}}
+		/>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+    <style define:vars={{ 
+      'color-primary': config.brand.colors.primary,
+      'color-secondary': config.brand.colors.secondary,
+      'color-bg': config.brand.colors.background,
+      'color-accent': config.brand.colors.accent,
+      'color-text': config.brand.colors.bodyText,
+      'color-heading': config.brand.colors.headingText,
+      'font-heading': `"${config.brand.fonts.heading}", sans-serif`,
+      'font-body': `"${config.brand.fonts.body}", serif`
+    }} is:global>
+    </style>
+	</head>
+	<body class="bg-brand-bg">
+    <Nav />
+		<slot />
+    <Footer />
+
+    <script is:inline>
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            // Once revealed, no need to observe anymore
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      document.addEventListener('astro:page-load', () => {
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+      });
+
+      // Initial run for first page load
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+	</body>
+</html>

@@ -1,0 +1,37 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import SectionRenderer from '../components/SectionRenderer.astro';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('pages');
+  return pages.map(page => ({
+    params: { slug: page.id === 'index' ? undefined : page.id },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props;
+const { Content } = await render(page);
+const { hero, sections } = page.data;
+---
+
+<Layout title={page.data.title}>
+  {hero && (
+    <Hero 
+      heading={hero.heading}
+      subheading={hero.subheading}
+      text={hero.text}
+      cta={hero.cta}
+      ctaLink={hero.ctaLink}
+      backgroundImage={hero.backgroundImage}
+    />
+  )}
+
+  {sections && <SectionRenderer sections={sections} />}
+
+  <main class="max-w-4xl mx-auto py-24 px-4 prose prose-lg prose-stone prose-headings:font-bold">
+    <Content />
+  </main>
+</Layout>

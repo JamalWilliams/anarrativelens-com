@@ -1,0 +1,86 @@
+---
+import { getCollection } from 'astro:content';
+import { formatText } from '../lib/textFormatter';
+
+interface Post {
+  id: string;
+  data: {
+    title: string;
+    description?: string;
+    pubDate?: Date | string;
+    tags?: string[];
+    image?: {
+      url: string;
+      alt: string;
+    };
+  };
+}
+
+interface Props {
+  posts?: Post[];
+  backgroundVariant?: 'default' | 'subtle';
+}
+
+const { 
+  posts: providedPosts,
+  backgroundVariant = 'default'
+} = Astro.props;
+
+let posts = providedPosts;
+if (!posts) {
+  const allPosts = await getCollection('posts');
+  posts = allPosts
+    .sort((a, b) => {
+      const aDate = a.data.pubDate ? new Date(a.data.pubDate).getTime() : 0;
+      const bDate = b.data.pubDate ? new Date(b.data.pubDate).getTime() : 0;
+      return bDate - aDate;
+    })
+    .slice(0, 3) as any;
+}
+
+const bgClass = backgroundVariant === 'subtle' ? 'bg-brand-bg/50' : 'bg-brand-bg';
+---
+
+<section data-component="InsightGrid" class={`section-standard py-24 ${bgClass}`}>
+  <div class="container mx-auto px-6 reveal">
+    {posts && posts.length > 0 ? (
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+        {posts.map((post) => (
+          <a href={`/insights/${post.id}`} class="group block rounded-xl border-2 border-white/20 overflow-hidden shadow-sm hover:shadow-xl transition-all hover:-translate-y-2 hover:border-brand-secondary/50 bg-zinc-900/30">
+            <div class="aspect-video bg-zinc-900 relative overflow-hidden border-b border-white/20">
+              {post.data.image ? (
+                <img 
+                  src={post.data.image.url} 
+                  alt={post.data.image.alt} 
+                  class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80 mix-blend-luminosity group-hover:opacity-100 group-hover:mix-blend-normal" 
+                />
+              ) : (
+                <div class="absolute inset-0 flex items-center justify-center text-4xl opacity-40 bg-gradient-to-br from-brand-secondary/40 to-brand-primary/40">📖</div>
+              )}
+            </div>
+            <div class="p-8">
+              <div class="flex flex-wrap gap-2 mb-6">
+                {post.data.tags?.map((tag) => (
+                  <span class="text-[9px] font-brand-heading font-bold uppercase tracking-widest text-brand-primary border border-white/20 px-2 py-1 rounded-md group-hover:border-brand-secondary transition-colors">{tag}</span>
+                ))}
+              </div>
+              <h2 class="font-brand-heading text-2xl mb-4 group-hover:text-brand-secondary transition-colors text-white" set:html={formatText(post.data.title)}></h2>
+              <p class="font-brand-body text-sm text-white/70 line-clamp-3 mb-8" set:html={formatText(post.data.description || "Read more about this chapter in the growth story.")}>
+              </p>
+              <div class="flex items-center justify-between text-[10px] text-white/50 font-brand-heading font-bold uppercase tracking-widest pt-6 border-t border-white/20">
+                <span class="group-hover:text-brand-secondary transition-colors">Read Article</span>
+                <span>{post.data.pubDate ? new Date(post.data.pubDate).toLocaleDateString() : 'Draft'}</span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    ) : (
+      <div class="py-32 text-center border-2 border-dashed border-white/20 rounded-xl max-w-4xl mx-auto bg-white/5">
+        <div class="text-5xl mb-6">🖋️</div>
+        <h3 class="font-brand-heading text-2xl mb-4 text-white">Coming Soon</h3>
+        <p class="font-brand-body text-white/70 max-w-sm mx-auto">We're currently drafting new stories and strategic insights. Check back soon for the first release.</p>
+      </div>
+    )}
+  </div>
+</section>

@@ -1,0 +1,54 @@
+---
+import { formatText } from '../lib/textFormatter';
+
+interface Row {
+  title: string;
+  description: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  rows: Row[];
+  backgroundVariant?: 'default' | 'subtle';
+  padding?: 'normal' | 'large';
+}
+
+const { 
+  eyebrow, 
+  title, 
+  rows,
+  backgroundVariant = 'default',
+  padding = 'normal'
+} = Astro.props;
+
+const bgClass = backgroundVariant === 'subtle' ? 'bg-white/10' : 'bg-brand-bg';
+const pyClass = padding === 'large' ? 'py-32' : 'py-24';
+---
+
+<section data-component="DetailsTable" class={`${pyClass} px-4 border-b-2 border-white/20 ${bgClass}`}>
+  <div class="max-w-7xl mx-auto reveal">
+    <!-- Header -->
+    <div class="mb-20">
+      {eyebrow && (
+        <p class="font-brand-heading eyebrow" set:html={formatText(eyebrow)}>
+        </p>
+      )}
+      <h2 class="font-brand-heading heading-lg max-w-4xl" set:html={formatText(title)}></h2>
+    </div>
+
+    <!-- borderless "Table" (Grid) -->
+    <div class="space-y-12 md:space-y-0">
+      {rows.map((row) => (
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-16 py-8 md:py-12 border-t border-white/20 first:border-t-0">
+          <div class="md:col-span-4">
+            <h3 class="font-brand-heading text-xl md:text-2xl font-bold text-brand-heading" set:html={formatText(row.title)}></h3>
+          </div>
+          <div class="md:col-span-8">
+            <p class="font-brand-body text-brand-text font-light leading-relaxed text-lg" set:html={formatText(row.description)}></p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,64 @@
+---
+import { formatText } from '../lib/textFormatter';
+
+interface ListItem {
+  title: string;
+  description: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  subheading?: string;
+  items: ListItem[];
+  footerText?: string;
+  backgroundVariant?: 'default' | 'subtle';
+}
+
+const { 
+  eyebrow, 
+  heading, 
+  subheading, 
+  items, 
+  footerText,
+  backgroundVariant = 'default' 
+} = Astro.props;
+
+const sectionClass = backgroundVariant === 'subtle' ? 'section-subtle' : 'section-standard';
+---
+
+<section data-component="FeatureList" class={sectionClass}>
+  <div class="container-medium reveal">
+    <div class="mb-20 text-center">
+      {eyebrow && (
+        <span class="font-brand-heading eyebrow" set:html={formatText(eyebrow)}></span>
+      )}
+      <h2 class="font-brand-heading heading-lg mb-8" set:html={formatText(heading)}></h2>
+      {subheading && (
+        <p class="font-brand-body body-lg max-w-3xl mx-auto" set:html={formatText(subheading)}></p>
+      )}
+    </div>
+
+    <div class="space-y-12">
+      {items.map((item) => (
+        <div class="flex group">
+          <div class="mr-8 flex-shrink-0 mt-1">
+            <div class="text-brand-secondary text-3xl font-light group-hover:scale-125 transition-transform duration-300">
+              +
+            </div>
+          </div>
+          <div>
+            <h3 class="font-brand-heading heading-sm mb-3" set:html={formatText(item.title)}></h3>
+            <p class="font-brand-body body-md" set:html={formatText(item.description)}></p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    {footerText && (
+      <div class="mt-20 text-center">
+        <p class="font-brand-body heading-md max-w-3xl mx-auto italic" set:html={formatText(footerText)}></p>
+      </div>
+    )}
+  </div>
+</section>

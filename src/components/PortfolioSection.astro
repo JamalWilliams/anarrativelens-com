@@ -1,0 +1,70 @@
+---
+import { getCollection } from 'astro:content';
+import { formatText } from '../lib/textFormatter';
+
+interface Project {
+  title: string;
+  category: string;
+  image: string;
+  link: string;
+}
+
+interface Props {
+  projects?: Project[];
+  title?: string;
+  subtitle?: string;
+  ctaText?: string;
+  ctaLink?: string;
+}
+
+const projectEntries = await getCollection('projects', ({ data }) => {
+  return data.featured !== false;
+});
+
+const {
+  projects = projectEntries.map(e => e.data),
+  title,
+  subtitle,
+  ctaText,
+  ctaLink
+} = Astro.props;
+---
+
+<section data-component="PortfolioSection" class="section-standard py-24 bg-brand-bg">
+  <div class="container mx-auto px-6 reveal">
+    {(title || subtitle || (ctaText && ctaLink)) && (
+      <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+        <div class="max-w-2xl">
+          {subtitle && (
+            <span class="font-brand-heading text-brand-primary text-xl mb-4 tracking-wider uppercase block" set:html={formatText(subtitle)}></span>
+          )}
+          {title && (
+            <h2 class="font-brand-heading text-4xl md:text-6xl text-white leading-tight" set:html={formatText(title)}></h2>
+          )}
+        </div>
+        {ctaText && ctaLink && (
+          <a href={ctaLink} class="font-brand-heading text-xs font-bold uppercase tracking-widest text-brand-secondary border-b-2 border-brand-secondary/30 pb-1 hover:border-brand-secondary transition-all mb-2">
+            {ctaText}
+          </a>
+        )}
+      </div>
+    )}
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+      {projects.map((p) => (
+        <a href={p.link} class="group block relative overflow-hidden rounded-xl bg-zinc-900 border-2 border-white/20 aspect-[4/5] hover:border-brand-secondary/50 transition-all duration-500">
+          <img 
+            src={p.image} 
+            alt={p.title}
+            class="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-luminosity group-hover:opacity-100 group-hover:mix-blend-normal group-hover:scale-110 transition-transform duration-700"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-brand-bg via-brand-bg/20 to-transparent opacity-90 group-hover:opacity-60 transition-opacity duration-500"></div>
+          <div class="absolute bottom-0 left-0 p-8 w-full text-white transform group-hover:-translate-y-2 transition-transform duration-500">
+            <div class="font-brand-heading text-[10px] font-bold uppercase tracking-[0.2em] text-brand-primary mb-3">{p.category}</div>
+            <h3 class="font-brand-heading text-2xl font-bold leading-tight" set:html={formatText(p.title)}></h3>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

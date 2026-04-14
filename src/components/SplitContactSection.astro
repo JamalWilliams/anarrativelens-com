@@ -1,0 +1,75 @@
+---
+import { formatText } from '../lib/textFormatter';
+
+interface Props {
+  heading: string;
+  text: string;
+  email: string;
+  phone: string;
+  hours: {
+    days: string;
+    times: string;
+    note: string;
+  };
+  card: {
+    icon: string;
+    title: string;
+    text: string;
+    cta: string;
+    ctaLink: string;
+    footer: string;
+  };
+  backgroundVariant?: 'default' | 'subtle';
+}
+
+const { 
+  heading, 
+  text, 
+  email, 
+  phone, 
+  hours, 
+  card,
+  backgroundVariant = 'default' 
+} = Astro.props;
+
+const bgClass = backgroundVariant === 'subtle' ? 'bg-brand-bg/50' : 'bg-brand-bg';
+---
+
+<section data-component="SplitContactSection" class={`section-standard py-24 ${bgClass}`}>
+  <div class="container mx-auto px-6 reveal grid grid-cols-1 md:grid-cols-2 gap-20">
+    <div>
+      <h1 class="font-brand-heading text-5xl md:text-7xl text-brand-primary mb-10 leading-tight" set:html={formatText(heading)}></h1>
+      <p class="font-brand-body text-xl text-white/70 mb-12 leading-relaxed" set:html={formatText(text)}>
+      </p>
+
+      <div class="space-y-12">
+        <div>
+          <h3 class="font-brand-heading text-[10px] font-bold uppercase tracking-[0.3em] text-white/50 mb-4">Direct Contact</h3>
+          <div class="space-y-3 font-brand-heading text-2xl font-bold text-white">
+            <a href={`mailto:${email}`} class="block hover:text-brand-secondary transition-colors underline decoration-brand-secondary/30 underline-offset-8 decoration-2">{email}</a>
+            <a href={`tel:${phone}`} class="block hover:text-brand-secondary transition-colors">{phone}</a>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="font-brand-heading text-[10px] font-bold uppercase tracking-[0.3em] text-white/50 mb-4">Studio Hours</h3>
+          <p class="font-brand-body text-lg text-white/70 leading-relaxed">
+            <span class="text-white font-medium">{hours.days}</span><br />
+            {hours.times}<br />
+            <span class="text-sm opacity-60 italic">{hours.note}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-zinc-900/30 rounded-xl p-8 md:p-16 border-2 border-white/20 flex flex-col justify-center items-center text-center shadow-2xl group hover:border-brand-secondary/50 transition-all duration-500">
+      <div class="text-7xl mb-10 group-hover:scale-110 transition-transform duration-700 mix-blend-luminosity group-hover:mix-blend-normal">{card.icon}</div>
+      <h2 class="font-brand-heading text-3xl text-brand-primary mb-6" set:html={formatText(card.title)}></h2>
+      <p class="font-brand-body text-lg text-white/70 mb-12 max-w-sm mx-auto leading-relaxed" set:html={formatText(card.text)}></p>
+      <a href={card.ctaLink} class="w-full py-6 rounded-xl font-brand-heading font-bold uppercase tracking-widest text-white shadow-xl hover:shadow-brand-secondary/20 transition-all transform hover:-translate-y-1 bg-brand-secondary hover:scale-105 active:scale-95">
+        {card.cta}
+      </a>
+      <p class="mt-8 text-[10px] font-brand-heading font-bold uppercase tracking-[0.3em] text-white/30 italic">{card.footer}</p>
+    </div>
+  </div>
+</section>

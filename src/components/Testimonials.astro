@@ -1,0 +1,64 @@
+---
+import { getCollection } from 'astro:content';
+import { formatText } from '../lib/textFormatter';
+
+interface Testimonial {
+  name: string;
+  role: string;
+  content: string;
+  image?: string;
+}
+
+interface Props {
+  testimonials?: Testimonial[];
+  title?: string;
+  subtitle?: string;
+}
+
+const testimonialEntries = await getCollection('testimonials', ({ data }) => {
+  return data.featured !== false;
+});
+
+const {
+  testimonials = testimonialEntries.map(e => e.data),
+  title,
+  subtitle
+} = Astro.props;
+---
+
+<section data-component="Testimonials" class="section-standard py-24 bg-brand-bg relative overflow-hidden">
+  <div class="container mx-auto px-6 reveal">
+    {(title || subtitle) && (
+      <div class="text-center mb-20 max-w-3xl mx-auto">
+        {subtitle && (
+          <span class="font-brand-heading text-brand-primary text-xl mb-4 tracking-wider uppercase block" set:html={formatText(subtitle)}></span>
+        )}
+        {title && (
+          <h2 class="font-brand-heading text-4xl md:text-6xl text-white leading-tight" set:html={formatText(title)}></h2>
+        )}
+      </div>
+    )}
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+      {testimonials.map((t) => (
+        <div class="p-10 rounded-xl border-2 border-white/20 bg-zinc-900/30 flex flex-col justify-between group hover:border-brand-secondary/50 transition-all duration-500 hover:-translate-y-2">
+          <div class="mb-10">
+            <div class="flex text-brand-secondary mb-6 opacity-60 group-hover:opacity-100 transition-opacity">
+              {[...Array(5)].map(() => (
+                <svg class="w-4 h-4 fill-current mr-1" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+              ))}
+            </div>
+            <p class="font-brand-body text-lg text-white/80 italic leading-relaxed relative z-10">
+              <span class="absolute -top-4 -left-4 text-6xl text-white/5 font-serif pointer-events-none">"</span>
+              "{formatText(t.content)}"
+            </p>
+          </div>
+          <div class="pt-8 border-t border-white/10">
+            <div class="font-brand-heading text-xl text-white group-hover:text-brand-secondary transition-colors" set:html={formatText(t.name)}></div>
+            <div class="font-brand-heading text-[10px] font-bold text-brand-primary uppercase tracking-[0.2em] mt-2" set:html={formatText(t.role)}></div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

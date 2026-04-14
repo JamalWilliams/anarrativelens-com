@@ -1,0 +1,45 @@
+---
+import { formatText } from '../lib/textFormatter';
+
+interface Product {
+  title: string;
+  price: string;
+  description: string;
+  category: string;
+  link?: string;
+}
+
+interface Props {
+  products: Product[];
+  backgroundVariant?: 'default' | 'subtle';
+}
+
+const { 
+  products,
+  backgroundVariant = 'default'
+} = Astro.props;
+
+const bgClass = backgroundVariant === 'subtle' ? 'bg-brand-bg/50' : 'bg-brand-bg';
+---
+
+<section data-component="ProductGrid" class={`section-standard py-24 ${bgClass}`}>
+  <div class="container mx-auto px-6 reveal">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+      {products.map((product) => (
+        <div class="group bg-zinc-900/30 rounded-xl border-2 border-white/20 p-10 shadow-sm hover:shadow-xl transition-all hover:-translate-y-2 flex flex-col justify-between hover:border-brand-secondary/50">
+          <div>
+            <div class="font-brand-heading text-[10px] font-bold uppercase tracking-widest text-brand-primary mb-6 px-3 py-1 bg-brand-primary/10 inline-block rounded-lg border border-brand-primary/20">{product.category}</div>
+            <h3 class="font-brand-heading text-2xl font-bold mb-4 text-white group-hover:text-brand-secondary transition-colors" set:html={formatText(product.title)}></h3>
+            <p class="font-brand-body text-white/70 text-sm leading-relaxed mb-8" set:html={formatText(product.description)}></p>
+          </div>
+          <div class="pt-8 border-t-2 border-white/10 flex items-center justify-between">
+            <span class="font-brand-heading text-2xl font-bold text-white tracking-tight">{product.price}</span>
+            <a href={product.link || "#"} class="px-6 py-3 rounded-xl font-brand-heading font-bold uppercase tracking-widest text-white text-xs bg-brand-secondary hover:scale-105 active:scale-95 transition-all shadow-lg">
+              Details
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

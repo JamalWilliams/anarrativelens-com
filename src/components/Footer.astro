@@ -1,0 +1,45 @@
+---
+import { getSiteConfig } from '../lib/config';
+import { formatText } from '../lib/textFormatter';
+
+const config = await getSiteConfig();
+---
+
+<footer data-component="Footer" class="mt-20 py-20 bg-brand-primary">
+  <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-4 gap-16 reveal">
+    <div class="col-span-2">
+      <a href="/" class="inline-block mb-6">
+        {config.brand.logo ? (
+          <img src={config.brand.logo} alt={config.brand.name} class="h-12 w-auto" />
+        ) : (
+          <h3 class="font-brand-heading text-2xl font-bold text-white leading-tight">{config.brand.name}</h3>
+        )}
+      </a>
+      <p class="font-brand-body text-white max-w-sm mb-8 font-medium leading-relaxed">{config.brand.tagline}</p>
+      <div class="flex space-x-6">
+        <!-- Social Placeholder Icons -->
+        <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white hover:bg-white/30 transition-all cursor-pointer shadow-sm">ig</div>
+        <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white hover:bg-white/30 transition-all cursor-pointer shadow-sm">fb</div>
+        <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white hover:bg-white/30 transition-all cursor-pointer shadow-sm">li</div>
+      </div>
+    </div>
+    <div>
+      <h4 class="font-brand-heading font-bold mb-6 uppercase tracking-widest text-white text-sm">Navigation</h4>
+      <ul class="space-y-3">
+        {config.navigation.map((item: any) => (
+          <li><a href={item.path} class="font-brand-body text-white hover:text-brand-secondary transition-colors font-medium">{item.label}</a></li>
+        ))}
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-brand-heading font-bold mb-6 uppercase tracking-widest text-white text-sm">Contact</h4>
+      <ul class="space-y-3 text-white font-medium">
+        <li class="font-brand-body hover:text-brand-secondary transition-colors cursor-pointer">{config.contact.email}</li>
+        <li class="font-brand-body hover:text-brand-secondary transition-colors cursor-pointer">{config.contact.phone}</li>
+      </ul>
+    </div>
+  </div>
+  <div class="max-w-6xl mx-auto px-4 mt-20 pt-10 border-t-2 border-white/20 text-center text-xs text-white font-medium tracking-wide font-brand-body">
+    &copy; {new Date().getFullYear()} {config.brand.name}. All rights reserved.
+  </div>
+</footer>

@@ -1,0 +1,52 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getSiteConfig } from '../lib/config';
+
+const config = await getSiteConfig();
+
+const links = [
+  { label: "Book Your Growth Story Session", path: "/contact", primary: true },
+  { label: "Explore The System", path: "/system" },
+  { label: "Read Latest Insights", path: "/insights" },
+  { label: "Visit The Shop", path: "/shop" },
+  { label: "About Jamal", path: "/about" },
+];
+---
+
+<Layout title="Links">
+  <section class="min-h-[80vh] flex items-center justify-center py-12 px-4">
+    <div class="max-w-md w-full text-center">
+      <!-- Brand Header -->
+      <div class="mb-12">
+        <div class="w-24 h-24 rounded-full bg-white/5 mx-auto mb-6 flex items-center justify-center text-4xl shadow-inner border-4 border-white">
+          ✨
+        </div>
+        <h1 class="text-2xl font-bold mb-2 text-brand-primary">{config.brand.name}</h1>
+        <p class="text-brand-text text-sm font-light italic">{config.brand.tagline}</p>
+      </div>
+
+      <!-- Links Stack -->
+      <div class="space-y-4 mb-12">
+        {links.map((link) => (
+          <a 
+            href={link.path} 
+            class={`block w-full py-4 px-6 rounded-2xl font-bold transition-all transform hover:-translate-y-1 hover:shadow-lg ${
+              link.primary 
+                ? 'text-white shadow-md bg-brand-accent' 
+                : 'bg-white/5 border border-white text-brand-text shadow-sm hover:bg-white/10'
+            }`}
+          >
+            {link.label}
+          </a>
+        ))}
+      </div>
+
+      <!-- Social Icons -->
+      <div class="flex justify-center space-x-6">
+        <a href="#" class="w-10 h-10 rounded-full bg-white/5 border border-white flex items-center justify-center text-brand-text/60 hover:text-accent transition-colors shadow-sm">ig</a>
+        <a href="#" class="w-10 h-10 rounded-full bg-white/5 border border-white flex items-center justify-center text-brand-text/60 hover:text-accent transition-colors shadow-sm">fb</a>
+        <a href="#" class="w-10 h-10 rounded-full bg-white/5 border border-white flex items-center justify-center text-brand-text/60 hover:text-accent transition-colors shadow-sm">li</a>
+      </div>
+    </div>
+  </section>
+</Layout>

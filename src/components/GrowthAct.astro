@@ -1,0 +1,86 @@
+---
+import { formatText } from '../lib/textFormatter';
+
+interface Props {
+  act: string;
+  title: string;
+  subtitle?: string;
+  description: string;
+  features: string[];
+  price?: string;
+  setup?: string;
+  variant?: 'light-brown' | 'green';
+  ctaLink?: string;
+  ctaText?: string;
+}
+
+const { 
+  act, 
+  title, 
+  subtitle,
+  description, 
+  features, 
+  price, 
+  setup, 
+  variant = 'light-brown',
+  ctaLink,
+  ctaText
+} = Astro.props;
+
+const bgClass = variant === 'green' ? 'bg-brand-secondary' : 'bg-brand-primary';
+const textColorClass = variant === 'green' ? 'text-brand-bg' : 'text-brand-text';
+const headingColorClass = variant === 'green' ? 'text-brand-bg' : 'text-brand-heading';
+const eyebrowColorClass = variant === 'green' ? 'text-brand-bg' : 'text-white';
+
+const borderColorClass = variant === 'green' ? 'border-brand-bg/20' : 'border-white/20';
+const iconColorClass = variant === 'green' ? 'text-brand-bg' : 'text-brand-secondary';
+---
+
+<div data-component="GrowthAct" class={`${bgClass} ${borderColorClass} border-2 rounded-xl p-10 shadow-xl hover:scale-[1.02] transition-all duration-300 flex flex-col h-full reveal`}>
+  <div class="mb-8">
+    <span class={`font-brand-heading text-xl mb-4 tracking-wider uppercase ${eyebrowColorClass}`} set:html={formatText(act)}></span>
+    <h3 class={`font-brand-heading text-3xl mb-4 leading-tight ${headingColorClass}`} set:html={formatText(title)}></h3>
+    {subtitle && (
+      <p class={`font-brand-heading text-sm font-bold uppercase tracking-[0.2em] mb-6 ${textColorClass}`} set:html={formatText(subtitle)}></p>
+    )}
+    <p class={`font-brand-body text-lg leading-relaxed ${textColorClass}`} set:html={formatText(description)}></p>
+  </div>
+  
+  <ul class="space-y-4 mb-12 flex-grow">
+    {features.map((feature) => (
+      <li class="flex items-start group">
+        <svg class={`w-6 h-6 mr-3 shrink-0 ${iconColorClass} group-hover:scale-125 transition-transform`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        <span class={`font-brand-body text-sm ${textColorClass} font-medium group-hover:text-white transition-colors`} set:html={formatText(feature)}></span>
+      </li>
+    ))}
+  </ul>
+
+  {(price || setup) && (
+    <div class={`pt-8 border-t ${borderColorClass} mt-auto`}>
+      {price && (
+        <div class={`font-brand-heading text-4xl font-bold ${headingColorClass}`}>
+          {price}
+          <span class={`font-brand-body text-sm font-normal ${textColorClass} ml-1`}>/mo</span>
+        </div>
+      )}
+      {setup && <div class={`font-brand-body text-sm ${textColorClass} mt-2 font-medium`}>{setup} setup</div>}
+      
+      {(ctaLink || ctaText) && (
+        <div class="mt-8">
+          <a 
+            href={ctaLink || "#"} 
+            class={`block w-full text-center py-4 rounded-xl font-brand-heading font-bold transition-all shadow-lg hover:shadow-2xl hover:scale-105 ${
+              variant === 'green' 
+                ? 'bg-brand-bg text-brand-text' 
+                : 'bg-brand-secondary text-brand-bg'
+            }`}
+          >
+            {ctaText}
+          </a>
+        </div>
+      )}
+    </div>
+  )}
+</div>
