@@ -1,101 +1,112 @@
 ---
 import { getCollection } from 'astro:content';
 import GrowthAct from './GrowthAct.astro';
-import { formatText } from '../lib/textFormatter';
+import { formatText } from '../utils/textFormatter';
 
 interface PricingItem {
-  id: string;
-  title: string;
-  subtitle?: string;
-  eyebrow?: string;
-  description?: string;
-  features: string[];
-  price: string;
-  setup?: string;
-  variant?: 'light-brown' | 'green';
-  ctaText?: string;
-  ctaLink?: string;
+ id: string;
+ title: string;
+ subtitle?: string;
+ eyebrow?: string;
+ description?: string;
+ features: string[];
+ price: string;
+ setup?: string;
+ variant?: 'light-brown' | 'green';
+ ctaText?: string;
+ ctaLink?: string;
 }
 
 const pricingEntries = await getCollection('pricing');
 
 const sortedPricing = pricingEntries
-  .sort((a, b) => (a.data.order || 0) - (b.data.order || 0))
-  .map((e, index) => ({
-    id: e.data.eyebrow || (index + 1).toString(),
-    title: e.data.title,
-    subtitle: e.data.subtitle || "",
-    description: e.data.description || "",
-    features: e.data.features,
-    price: e.data.price,
-    setup: e.data.setup,
-    variant: e.data.featured ? 'green' : 'light-brown' as 'light-brown' | 'green',
-    ctaText: e.data.cta,
-    ctaLink: e.data.ctaLink
-  }));
+ .sort((a, b) => (a.data.order || 0) - (b.data.order || 0))
+ .map((e, index) => {
+   const actNumber = e.data.eyebrow || (index + 1);
+   const formattedAct = actNumber.toString().toLowerCase().includes('act') 
+     ? actNumber 
+     : `Act ${actNumber}`;
+     
+   return {
+     id: formattedAct,
+     title: e.data.title,
+     subtitle: e.data.subtitle || "",
+     description: e.data.description || "",
+     features: e.data.features,
+     price: e.data.price,
+     setup: e.data.setup,
+     variant: e.data.featured ? 'green' : 'light-brown' as 'light-brown' | 'green',
+     ctaText: e.data.cta,
+     ctaLink: e.data.ctaLink
+   };
+ });
 
 interface Props {
-  eyebrow?: string;
-  heading?: string;
-  subheading?: string;
-  pricing?: PricingItem[];
-  cta?: string;
-  ctaLink?: string;
+ eyebrow?: string;
+ heading?: string;
+ subheading?: string;
+ pricing?: PricingItem[];
+ cta?: string;
+ ctaLink?: string;
+ backgroundVariant?: 'default' | 'subtle';
 }
 
 const {
-  eyebrow,
-  heading,
-  subheading,
-  pricing = sortedPricing,
-  cta,
-  ctaLink
+ eyebrow,
+ heading,
+ subheading,
+ pricing = sortedPricing,
+ cta,
+ ctaLink,
+ backgroundVariant = 'default'
 } = Astro.props;
+
+const bgClass = backgroundVariant === 'subtle' ? 'bg-brand-bg-subtle' : 'bg-brand-bg';
 ---
 
-<section data-component="PricingTable" class="section-standard py-24 bg-brand-bg border-b-2 border-white/20">
-  <div class="container mx-auto px-6 reveal">
-    {(eyebrow || heading || subheading) && (
-      <div class="text-left mb-20 max-w-4xl">
-        {eyebrow && (
-          <span class="font-brand-heading text-brand-primary text-xl mb-4 tracking-wider uppercase block" set:html={formatText(eyebrow)}></span>
-        )}
-        {heading && (
-          <h2 class="font-brand-heading text-4xl md:text-6xl text-white mb-8 leading-tight" set:html={formatText(heading)}></h2>
-        )}
-        {subheading && (
-          <p class="font-brand-body text-xl text-white/70 max-w-3xl leading-relaxed" set:html={formatText(subheading)}></p>
-        )}
-      </div>
-    )}
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch mb-20">
-      {pricing.map((item, index) => (
-        <GrowthAct 
-          act={item.id}
-          title={item.title}
-          subtitle={item.subtitle}
-          description={item.description || ""}
-          features={item.features}
-          price={item.price}
-          setup={item.setup}
-          variant={item.variant}
-          pillVariant={index % 2 === 0 ? 'green' : 'light-brown'}
-          ctaText={item.ctaText}
-          ctaLink={item.ctaLink}
-        />
-      ))}
-    </div>
+<section data-component="PricingTable" class={`section-standard py-24 ${bgClass}`}>
+ <div class="container mx-auto px-6 reveal">
+ {(eyebrow || heading || subheading) && (
+ <div class="mb-20">
+ {eyebrow && (
+ <span class="font-brand-heading eyebrow" set:html={formatText(eyebrow)}></span>
+ )}
+ {heading && (
+ <h2 class="font-brand-heading heading-lg mb-8" set:html={formatText(heading)}></h2>
+ )}
+ {subheading && (
+ <p class="font-brand-body body-lg max-w-3xl" set:html={formatText(subheading)}></p>
+ )}
+ </div>
+ )}
+ 
+ <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch mb-20">
+ {pricing.map((item, index) => (
+ <GrowthAct 
+ act={item.id}
+ title={item.title}
+ subtitle={item.subtitle}
+ description={item.description || ""}
+ features={item.features}
+ price={item.price}
+ setup={item.setup}
+ variant={item.variant}
+ pillVariant={index % 2 === 0 ? 'green' : 'light-brown'}
+ ctaText={item.ctaText}
+ ctaLink={item.ctaLink}
+ />
+ ))}
+ </div>
 
-    {cta && (
-      <div class="text-center pt-8">
-        <a 
-          href={ctaLink || "/contact"} 
-          class="px-12 py-6 bg-brand-secondary text-white font-brand-heading font-bold rounded-xl shadow-2xl transition-all transform hover:-translate-y-1 hover:scale-105 inline-block text-lg uppercase tracking-widest"
-        >
-          {cta}
-        </a>
-      </div>
-    )}
-  </div>
+ {cta && (
+ <div class="text-center pt-8">
+ <a 
+ href={ctaLink || "/contact"} 
+ class="px-12 py-6 bg-brand-secondary text-white font-brand-heading font-bold rounded-xl shadow-2xl transition-all transform hover:-translate-y-1 hover:scale-105 inline-block text-lg uppercase tracking-widest"
+ >
+ {cta}
+ </a>
+ </div>
+ )}
+ </div>
 </section>

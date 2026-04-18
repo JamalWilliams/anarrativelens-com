@@ -1,0 +1,34 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SectionRenderer from '../../components/SectionRenderer.astro';
+import { getCollection } from 'astro:content';
+
+import { getSiteConfig } from '../../lib/config';
+
+const config = await getSiteConfig();
+const posts = await getCollection('posts');
+const sortedPosts = posts.sort((a, b) => {
+  const aDate = a.data.pubDate ? new Date(a.data.pubDate).getTime() : 0;
+  const bDate = b.data.pubDate ? new Date(b.data.pubDate).getTime() : 0;
+  return bDate - aDate;
+});
+
+const pageData = {
+  title: "Insights",
+  hero: {
+    heading: "Sovereign Insights",
+    subheading: "Narratives on Growth, Strategy, and Technical Sovereignty.",
+    backgroundImage: config.brand.heroBackgrounds?.insights || ""
+  },
+  sections: [
+    {
+      type: "insight-grid",
+      posts: sortedPosts
+    }
+  ]
+};
+---
+
+<Layout title={pageData.title}>
+  <SectionRenderer sections={pageData.sections} hero={pageData.hero} />
+</Layout>

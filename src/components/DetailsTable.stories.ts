@@ -35,7 +35,7 @@ export const Default: Story = {
         description: 'Implementation of automated systems, AI-driven workflows, and high-conversion funnels that drive momentum and scale your impact.' 
       },
       { 
-        title: 'Act 3: The Breakthrough', 
+        title: 'Act 3: The Break Through', 
         description: 'Amplify your authority and build a lasting community through strategic content, courses, and integrated engagement platforms.' 
       }
     ],

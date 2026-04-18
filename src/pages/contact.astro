@@ -1,0 +1,42 @@
+---
+import { getSiteConfig } from '../lib/config';
+import Layout from '../layouts/Layout.astro';
+import SectionRenderer from '../components/SectionRenderer.astro';
+
+const config = await getSiteConfig();
+
+const pageData = {
+  title: "Contact",
+  hero: {
+    heading: "Let's Build Your **Sovereign** System.",
+    subheading: "Ready to scale without the complexity? Reach out to start the conversation.",
+    backgroundImage: config.brand.heroBackgrounds?.contact || ""
+  },
+  sections: [
+    {
+      type: "split-contact",
+      heading: "Inquiry & Strategy",
+      text: "We specialize in moving businesses from 'Manual Chaos' to 'Sovereign Growth.' Fill out the form or reach out directly to begin.",
+      email: "jamal@anarrativelens.com",
+      phone: "313.310.2307",
+      hours: {
+        days: "Monday - Friday",
+        times: "9:00 AM - 5:00 PM EST",
+        note: "Response time: < 24 Hours"
+      },
+      card: {
+        icon: "⚡",
+        title: "Fast Track",
+        text: "Ready to skip the small talk and start building immediately?",
+        cta: "Book a Strategy Session",
+        ctaLink: "https://link.anarrativelens.com/widget/booking/98b50e2ddc9943efb387052637738f61",
+        footer: "Powered by The Growth Story System"
+      }
+    }
+  ]
+};
+---
+
+<Layout title={pageData.title}>
+  <SectionRenderer sections={pageData.sections} hero={pageData.hero} />
+</Layout>

@@ -1,32 +1,32 @@
 ---
-import { formatText } from '../lib/textFormatter';
+import { formatText } from '../utils/textFormatter';
 
 interface Props {
-  title: string;
-  description: string;
-  backgroundVariant?: 'default' | 'subtle';
+ title: string;
+ description: string;
+ backgroundVariant?: 'default' | 'subtle';
 }
 
 const { 
-  title, 
-  description,
-  backgroundVariant = 'subtle' 
+ title, 
+ description,
+ backgroundVariant = 'subtle' 
 } = Astro.props;
 
-const bgClass = backgroundVariant === 'subtle' ? 'bg-brand-bg/50' : 'bg-brand-bg';
+const bgClass = backgroundVariant === 'subtle' ? 'bg-brand-bg' : 'bg-brand-bg';
 ---
 
 <section data-component="LegalSupport" class={`section-standard py-24 ${bgClass}`}>
-  <div class="max-w-4xl mx-auto text-center reveal px-6">
-    <div class="text-4xl mb-6 opacity-80 mix-blend-luminosity">🛡️</div>
-    <h2 class="font-brand-heading text-3xl mb-4 text-brand-primary" set:html={formatText(title)}></h2>
-    <p class="font-brand-body text-white/70 mb-12 max-w-sm mx-auto text-lg leading-relaxed" set:html={formatText(description)}></p>
-    <div class="flex flex-col sm:flex-row justify-center gap-6 text-[11px] font-brand-heading font-bold uppercase tracking-[0.2em] text-white/50">
-      <a href="/privacy-policy" class="hover:text-brand-secondary transition-colors">Privacy Policy</a>
-      <span class="hidden sm:inline opacity-30">•</span>
-      <a href="/terms-and-conditions" class="hover:text-brand-secondary transition-colors">Terms of Service</a>
-      <span class="hidden sm:inline opacity-30">•</span>
-      <a href="/refund-returns" class="hover:text-brand-secondary transition-colors">Refund Policy</a>
-    </div>
-  </div>
+ <div class="max-w-4xl mx-auto text-center reveal px-6">
+ <div class="text-4xl mb-6 mix-blend-luminosity">🛡️</div>
+ <h2 class="font-brand-heading text-3xl mb-4 text-white" set:html={formatText(title)}></h2>
+ <p class="font-brand-body text-white mb-12 max-w-sm mx-auto text-lg leading-relaxed" set:html={formatText(description)}></p>
+ <div class="flex flex-col sm:flex-row justify-center gap-6 text-[11px] font-brand-heading font-bold uppercase tracking-[0.2em] text-white">
+ <a href="/privacy-policy" class="hover:text-brand-secondary transition-colors">Privacy Policy</a>
+ <span class="hidden sm:inline ">•</span>
+ <a href="/terms-and-conditions" class="hover:text-brand-secondary transition-colors">Terms of Service</a>
+ <span class="hidden sm:inline ">•</span>
+ <a href="/refund-returns" class="hover:text-brand-secondary transition-colors">Refund Policy</a>
+ </div>
+ </div>
 </section>

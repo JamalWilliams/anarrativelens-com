@@ -14,6 +14,17 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 const config = await getSiteConfig();
+
+// Get other posts for the "Keep Reading" section
+const allPosts = await getCollection('posts');
+const otherPosts = allPosts
+  .filter(p => p.id !== post.id)
+  .sort((a, b) => {
+    const aDate = a.data.pubDate ? new Date(a.data.pubDate).getTime() : 0;
+    const bDate = b.data.pubDate ? new Date(b.data.pubDate).getTime() : 0;
+    return bDate - aDate;
+  })
+  .slice(0, 3);
 ---
 
 <Layout title={post.data.title}>
@@ -23,7 +34,6 @@ const config = await getSiteConfig();
         {post.data.tags?.map((tag: string) => (
           <span class="text-xs font-bold uppercase tracking-widest text-brand-text border border-white/10 px-3 py-1 rounded-md">{tag}</span>
         ))}
-        {post.data.pubDate && <span class="text-xs text-brand-text font-bold uppercase tracking-widest">{new Date(post.data.pubDate).toLocaleDateString()}</span>}
       </div>
       <h1 class="text-4xl md:text-7xl mb-8 tracking-tight text-brand-heading" style="font-family: 'Libre Baskerville', serif; font-weight: normal;">{post.data.title}</h1>
       {post.data.description && <p class="text-xl md:text-2xl text-brand-text font-light leading-relaxed">{post.data.description}</p>}
@@ -35,26 +45,132 @@ const config = await getSiteConfig();
       </div>
     )}
 
-    <div class="prose prose-2xl prose-stone prose-headings:font-bold prose-headings:tracking-tight prose-a:text-accent prose-img:rounded-3xl max-w-none">
-      <Content />
+    <div class="prose-container">
+      <div class="blog-content">
+        <Content />
+      </div>
     </div>
 
-    <div class="mt-32 pt-16 border-t border-white/10 flex items-center gap-6">
-      <div class="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center text-3xl shadow-inner">
-        JW
+    <style is:global>
+      @reference "../../styles/global.css";
+
+      .prose-container {
+        @apply max-w-none;
+      }
+      
+      .blog-content {
+        @apply text-lg md:text-xl leading-relaxed text-brand-text font-brand-body;
+        font-family: 'Libre Baskerville', serif;
+      }
+
+      .blog-content p {
+        @apply mb-4 opacity-90;
+      }
+
+      /* First paragraph drop cap - smaller and more integrated */
+      .blog-content > p:first-of-type::first-letter {
+        @apply float-left text-5xl md:text-6xl font-bold mr-3 mt-1 text-brand-secondary font-brand-heading leading-[0.9];
+      }
+
+      .blog-content h1, .blog-content h2, .blog-content h3, .blog-content h4 {
+        @apply font-brand-heading text-brand-heading mt-20 mb-10 tracking-tight uppercase font-bold;
+      }
+
+      .blog-content h2 { @apply text-2xl md:text-3xl border-l-4 border-brand-secondary pl-6 py-1; }
+      .blog-content h3 { @apply text-xl md:text-2xl text-brand-secondary; }
+
+      .blog-content ul, .blog-content ol {
+        @apply mb-12 space-y-3 ml-6;
+      }
+
+      .blog-content li {
+        @apply pl-4 border-l-2 border-white/5;
+      }
+
+      /* Checklist items specifically */
+      .blog-content li:has(span:first-child:contains('✅')), 
+      .blog-content li:contains('✅') {
+        @apply list-none border-l-0 pl-0 py-3 px-6 bg-white/5 rounded-xl mb-4 flex items-center gap-4 transition-all hover:bg-white/10;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .blog-content li:contains('✅')::before {
+        content: none;
+      }
+
+      .blog-content blockquote {
+        @apply my-20 p-12 bg-white/5 border-l-8 border-brand-secondary rounded-r-3xl italic text-xl md:text-2xl text-brand-heading font-light leading-relaxed relative overflow-hidden;
+      }
+
+      .blog-content blockquote::before {
+        content: '"';
+        @apply absolute -top-8 -left-4 text-[10rem] text-brand-secondary/5 font-serif pointer-events-none;
+      }
+
+      .blog-content hr {
+        @apply my-24 border-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent;
+      }
+
+      .blog-content strong {
+        @apply text-brand-secondary font-bold;
+      }
+
+      .blog-content img {
+        @apply my-16 rounded-3xl shadow-2xl border-2 border-white/10;
+      }
+    </style>
+
+    <div class="mt-32 pt-16 border-t border-white/10 flex flex-col md:flex-row items-center md:items-start gap-8">
+      <div class="w-32 h-32 rounded-2xl overflow-hidden border-2 border-white/10 shadow-2xl shrink-0 bg-zinc-900">
+        <img src="/media/Square Profile small.jpg" alt="Jamal Williams" class="w-full h-full object-cover mix-blend-luminosity hover:mix-blend-normal transition-all duration-700" />
       </div>
-      <div>
-        <div class="text-sm uppercase tracking-widest text-brand-text font-bold mb-1">Author</div>
-        <div class="text-2xl font-bold text-brand-heading">{post.data.author || "Jamal Williams"}</div>
-        <p class="text-brand-text max-w-md mt-2">Engineering Manager and Visual Storyteller helping businesses build high-converting growth systems.</p>
+      <div class="text-center md:text-left">
+        <div class="text-sm uppercase tracking-widest text-brand-secondary font-bold mb-2 font-brand-heading">Author</div>
+        <div class="text-3xl font-bold text-brand-heading font-brand-heading uppercase mb-3 leading-tight">Jamal Williams</div>
+        <p class="text-brand-text max-w-xl text-lg opacity-80 leading-relaxed">Engineering Manager and Visual Storyteller helping businesses build high-converting growth systems through technical sovereignty and soulful strategy.</p>
       </div>
     </div>
   </article>
 
-  <section class="py-24 px-4 bg-white/5 mt-32">
+  {otherPosts.length > 0 && (
+    <section class="py-24 px-6 border-t border-white/10 mt-16 bg-brand-bg">
+      <div class="max-w-6xl mx-auto">
+        <div class="flex items-center justify-between mb-16">
+          <h2 class="text-3xl font-brand-heading text-brand-heading uppercase tracking-tight">Keep Reading</h2>
+          <a href="/insights" class="text-xs font-brand-heading font-bold uppercase tracking-widest text-brand-secondary border-b-2 border-brand-secondary/30 pb-1 hover:border-brand-secondary transition-all">View All Insights</a>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+          {otherPosts.map((otherPost) => (
+            <a href={`/insights/${otherPost.id}`} class="group flex flex-col h-full rounded-xl border-2 border-white/20 overflow-hidden shadow-sm hover:shadow-xl transition-all hover:-translate-y-2 bg-brand-primary hover:border-brand-secondary/50">
+              <div class="aspect-video bg-zinc-900 relative overflow-hidden border-b-2 border-white/20 shrink-0">
+                {otherPost.data.image ? (
+                  <img 
+                    src={otherPost.data.image.url} 
+                    alt={otherPost.data.image.alt} 
+                    class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 mix-blend-luminosity group-hover:mix-blend-normal" 
+                  />
+                ) : (
+                  <div class="absolute inset-0 flex items-center justify-center text-4xl bg-gradient-to-br from-brand-secondary/40 to-brand-primary/40">📖</div>
+                )}
+              </div>
+              <div class="p-8 flex-grow flex flex-col">
+                <h3 class="font-brand-heading text-xl mb-4 group-hover:text-brand-secondary transition-colors text-white uppercase tracking-tight leading-tight">{otherPost.data.title}</h3>
+                <div class="flex items-center text-[10px] text-white font-brand-heading font-bold uppercase tracking-widest pt-6 mt-auto border-t border-white/10">
+                  <span class="group-hover:text-brand-secondary transition-colors">Read Article</span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="py-24 px-4 bg-white/5 mt-16 border-y border-white/10">
     <div class="max-w-4xl mx-auto text-center">
       <h2 class="text-3xl font-bold mb-6 text-brand-heading">Ready to write your next chapter?</h2>
-      <p class="text-brand-text mb-10">Whether you're just setting the stage or ready for your breakthrough, we have the systems to get you there.</p>
+      <p class="text-brand-text mb-10">Whether you're just setting the stage or ready for your break through, we have the systems to get you there.</p>
       <a href="/contact" class="px-10 py-5 rounded-xl font-bold text-white shadow-xl bg-brand-secondary">
         Book Your Free Strategy Session
       </a>

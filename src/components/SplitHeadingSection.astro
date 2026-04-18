@@ -1,41 +1,41 @@
 ---
-import { formatText } from '../lib/textFormatter';
+import { formatText } from '../utils/textFormatter';
 
 interface Props {
-  title: string;
-  text: string;
-  backgroundVariant?: 'default' | 'subtle';
+ title: string;
+ text: string;
+ backgroundVariant?: 'default' | 'subtle';
 }
 
 const { 
-  title, 
-  text, 
-  backgroundVariant = 'default'
+ title, 
+ text, 
+ backgroundVariant = 'default'
 } = Astro.props;
 
-const sectionClass = backgroundVariant === 'subtle' ? 'bg-brand-bg/50' : 'bg-brand-bg';
+const sectionClass = backgroundVariant === 'subtle' ? 'bg-brand-bg' : 'bg-brand-bg';
 ---
 
 <section data-component="SplitHeadingSection" class={`section-standard py-24 ${sectionClass} relative overflow-hidden`}>
-  <div class="container mx-auto px-6 reveal">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-0 items-start">
-      <!-- Title Column -->
-      <div class="md:pr-16 lg:pr-24">
-        <h2 class="font-brand-heading text-4xl md:text-6xl text-white leading-tight" set:html={formatText(title)}></h2>
-      </div>
+ <div class="container mx-auto px-6 reveal">
+ <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-0 items-start">
+ <!-- Title Column -->
+ <div class="md:pr-16 lg:pr-24">
+ <h2 class="font-brand-heading text-4xl md:text-6xl text-white leading-tight" set:html={formatText(title)}></h2>
+ </div>
 
-      <!-- Text Column -->
-      <div class="relative md:pl-16 lg:pl-24">
-        <div class="hidden md:block absolute left-0 top-0 bottom-0 w-0.5 bg-white/20"></div>
-        
-        <!-- Mobile Accent Line -->
-        <div class="w-16 h-1 bg-brand-secondary md:hidden mb-8 rounded-full"></div>
+ <!-- Text Column -->
+ <div class="relative md:pl-16 lg:pl-24">
+ <div class="hidden md:block absolute left-0 top-0 bottom-0 w-0.5 bg-brand-bg"></div>
+ 
+ <!-- Mobile Accent Line -->
+ <div class="w-16 h-1 bg-brand-secondary md:hidden mb-8 rounded-full"></div>
 
-        <div class="prose prose-invert prose-lg max-w-none">
-          <p class="font-brand-body text-xl text-white/70 leading-relaxed" set:html={formatText(text)}>
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
+ <div class="prose prose-invert prose-lg max-w-none">
+ <p class="font-brand-body text-xl text-white leading-relaxed" set:html={formatText(text)}>
+ </p>
+ </div>
+ </div>
+ </div>
+ </div>
 </section>

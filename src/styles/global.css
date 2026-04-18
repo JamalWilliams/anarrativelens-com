@@ -4,6 +4,7 @@
   --color-brand-primary: var(--color-primary);
   --color-brand-secondary: var(--color-secondary);
   --color-brand-bg: var(--color-bg);
+  --color-brand-bg-subtle: var(--color-bg-subtle);
   --color-brand-accent: var(--color-accent);
   --color-brand-text: var(--color-text);
   --color-brand-heading: var(--color-heading);
@@ -31,15 +32,15 @@
 @layer components {
   /* Layout Containers */
   .section-standard {
-    @apply py-24 px-4 border-b border-white/20 bg-brand-bg;
+    @apply py-24 px-4 bg-brand-bg;
   }
 
   .section-subtle {
-    @apply py-24 px-4 border-b border-white/20 bg-white/10;
+    @apply py-24 px-4 bg-brand-bg-subtle;
   }
 
   .section-accent {
-    @apply py-24 px-4 border-b border-white/20 bg-brand-primary;
+    @apply py-24 px-4 bg-brand-primary;
   }
 
   .container-wide {

@@ -1,87 +1,87 @@
 ---
-import { formatText } from '../lib/textFormatter';
+import { formatText } from '../utils/textFormatter';
 
 interface Props {
-  /** Small uppercase text above the main heading */
-  eyebrow?: string;
-  /** The main title of the section */
-  heading: string;
-  /** Supporting paragraph text */
-  text?: string;
-  /** Path to the image file */
-  image: string;
-  /** Alt text for the image */
-  imageAlt?: string;
-  /** If true, moves the image to the right column on desktop */
-  imageOnRight?: boolean;
-  /** Optional button text */
-  cta?: string;
-  /** Optional button link */
-  ctaLink?: string;
-  /** Background color style: default (dark) or subtle (slight grey) */
-  backgroundVariant?: 'default' | 'subtle';
-  /** Visual balance between the image and content columns */
-  columnRatio?: '50/50' | '66/33' | '33/66';
+ /** Small uppercase text above the main heading */
+ eyebrow?: string;
+ /** The main title of the section */
+ heading: string;
+ /** Supporting paragraph text */
+ text?: string;
+ /** Path to the image file */
+ image: string;
+ /** Alt text for the image */
+ imageAlt?: string;
+ /** If true, moves the image to the right column on desktop */
+ imageOnRight?: boolean;
+ /** Optional button text */
+ cta?: string;
+ /** Optional button link */
+ ctaLink?: string;
+ /** Background color style: default (dark) or subtle (slight grey) */
+ backgroundVariant?: 'default' | 'subtle';
+ /** Visual balance between the image and content columns */
+ columnRatio?: '50/50' | '66/33' | '33/66';
 }
 
 const { 
-  eyebrow, 
-  heading, 
-  text, 
-  image, 
-  imageAlt = "", 
-  imageOnRight = false,
-  cta,
-  ctaLink = "#",
-  backgroundVariant = 'default',
-  columnRatio = '50/50'
+ eyebrow, 
+ heading, 
+ text, 
+ image, 
+ imageAlt = "", 
+ imageOnRight = false,
+ cta,
+ ctaLink = "#",
+ backgroundVariant = 'default',
+ columnRatio = '50/50'
 } = Astro.props;
 
-const bgClass = backgroundVariant === 'subtle' ? 'bg-brand-bg/50' : 'bg-brand-bg';
+const bgClass = backgroundVariant === 'subtle' ? 'bg-brand-bg-subtle' : 'bg-brand-bg';
 
 const widths = {
-  '66/33': { image: 'md:w-2/3', content: 'md:w-1/3' },
-  '33/66': { image: 'md:w-1/3', content: 'md:w-2/3' },
-  '50/50': { image: 'md:w-1/2', content: 'md:w-1/2' }
+ '66/33': { image: 'md:w-2/3', content: 'md:w-1/3' },
+ '33/66': { image: 'md:w-1/3', content: 'md:w-2/3' },
+ '50/50': { image: 'md:w-1/2', content: 'md:w-1/2' }
 }[columnRatio];
 ---
 
 <section data-component="TwoColumnSection" class={`section-standard py-24 ${bgClass}`}>
-  <div class="container mx-auto px-6 reveal">
-    <div class={`flex flex-col md:flex-row items-center gap-12 lg:gap-24 ${imageOnRight ? 'md:flex-row-reverse' : ''}`}>
-      <!-- Image Side -->
-      <div class={`w-full ${widths.image}`}>
-        <div class="relative group">
-          <div class="absolute -inset-1 bg-gradient-to-r from-brand-secondary to-brand-primary rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
-          <div class={`relative overflow-hidden rounded-xl bg-zinc-900 border-2 border-white/20 shadow-2xl ${columnRatio === '50/50' ? 'aspect-[4/5] md:aspect-[3/4]' : 'aspect-video md:aspect-auto'}`}>
-            <img 
-              src={image} 
-              alt={imageAlt} 
-              class="w-full h-full object-cover opacity-80 mix-blend-luminosity group-hover:opacity-100 group-hover:mix-blend-normal transition-all duration-700 group-hover:scale-105"
-            />
-          </div>
-        </div>
-      </div>
+ <div class="container mx-auto px-6 reveal">
+ <div class={`flex flex-col md:flex-row items-center gap-12 lg:gap-24 ${imageOnRight ? 'md:flex-row-reverse' : ''}`}>
+ <!-- Image Side -->
+ <div class={`w-full ${widths.image}`}>
+ <div class="relative group">
+ <div class="absolute -inset-1 bg-gradient-to-r from-brand-secondary to-brand-primary rounded-xl blur group-hover: transition duration-1000 group-hover:duration-200"></div>
+ <div class={`relative overflow-hidden rounded-xl bg-zinc-900 border-2 border-white/20 shadow-2xl ${columnRatio === '50/50' ? 'aspect-[4/5] md:aspect-[3/4]' : 'aspect-video md:aspect-auto'}`}>
+ <img 
+ src={image} 
+ alt={imageAlt} 
+ class="w-full h-full object-cover mix-blend-luminosity group-hover: group-hover:mix-blend-normal transition-all duration-700 group-hover:scale-105"
+ />
+ </div>
+ </div>
+ </div>
 
-      <!-- Content Side -->
-      <div class={`w-full ${widths.content} flex flex-col items-start`}>
-        {eyebrow && (
-          <span class="font-brand-heading text-brand-primary text-xl mb-4 tracking-wider uppercase" set:html={formatText(eyebrow)}></span>
-        )}
-        <h2 class="font-brand-heading text-4xl md:text-6xl text-white mb-8 leading-tight" set:html={formatText(heading)}></h2>
-        {text && (
-          <p class="font-brand-body text-xl text-white/70 mb-12 leading-relaxed" set:html={formatText(text)}>
-          </p>
-        )}
-        {cta && (
-          <a 
-            href={ctaLink} 
-            class="px-10 py-5 rounded-xl text-white shadow-xl transition-all transform hover:-translate-y-1 bg-brand-secondary font-brand-heading font-bold uppercase tracking-widest text-xs hover:scale-105 active:scale-95"
-          >
-            {cta}
-          </a>
-        )}
-      </div>
-    </div>
-  </div>
+ <!-- Content Side -->
+ <div class={`w-full ${widths.content} flex flex-col items-start`}>
+ {eyebrow && (
+ <span class="font-brand-heading text-white text-xl mb-4 tracking-wider uppercase" set:html={formatText(eyebrow)}></span>
+ )}
+ <h2 class="font-brand-heading text-4xl md:text-6xl text-white mb-8 leading-tight" set:html={formatText(heading)}></h2>
+ {text && (
+ <p class="font-brand-body text-xl text-white mb-12 leading-relaxed" set:html={formatText(text)}>
+ </p>
+ )}
+ {cta && (
+ <a 
+ href={ctaLink} 
+ class="px-10 py-5 rounded-xl text-white shadow-xl transition-all transform hover:-translate-y-1 bg-brand-secondary font-brand-heading font-bold uppercase tracking-widest text-xs hover:scale-105 active:scale-95"
+ >
+ {cta}
+ </a>
+ )}
+ </div>
+ </div>
+ </div>
 </section>

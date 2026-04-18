@@ -32,7 +32,7 @@ export const Default: Story = {
       },
       {
         act: '3',
-        title: 'Breakthrough',
+        title: 'Break Through',
         subtitle: 'UNLOCK YOUR POTENTIAL',
         description: 'Step fully into your market presence and authority.',
         features: ['Targeted Outreach', 'Brand Visibility', 'Maximum ROI'],

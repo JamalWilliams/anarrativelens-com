@@ -39,7 +39,7 @@ export const CenterAligned: Story = {
   args: {
     eyebrow: 'The Framework',
     heading: 'The Growth Story System',
-    text: 'A scalable framework for sustainable success. We guide you through three distinct acts to capture leads, automate growth, and breakthrough to your full potential.',
+    text: 'A scalable framework for sustainable success. We guide you through three distinct acts to capture leads, automate growth, and break through to your full potential.',
     alignment: 'center',
   },
 };

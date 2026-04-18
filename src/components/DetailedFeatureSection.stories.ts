@@ -28,7 +28,7 @@ export const Default: Story = {
       'Scalable Systems Design',
       'Performance Analytics',
     ],
-    statementText: 'We don\'t just build tools; we build the foundation for your next big breakthrough.',
+    statementText: 'We don\'t just build tools; we build the foundation for your next big break through.',
   },
 };
 

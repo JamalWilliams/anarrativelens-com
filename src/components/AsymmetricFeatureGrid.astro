@@ -1,52 +1,52 @@
 ---
-import { formatText } from '../lib/textFormatter';
+import { formatText } from '../utils/textFormatter';
 
 interface Feature {
-  title: string;
-  description: string;
-  image: string;
+ title: string;
+ description: string;
+ image: string;
 }
 
 interface Props {
-  eyebrow?: string;
-  heading: string;
-  features: Feature[];
-  backgroundVariant?: 'default' | 'subtle';
+ eyebrow?: string;
+ heading: string;
+ features: Feature[];
+ backgroundVariant?: 'default' | 'subtle';
 }
 
 const { 
-  eyebrow, 
-  heading, 
-  features,
-  backgroundVariant = 'default'
+ eyebrow, 
+ heading, 
+ features,
+ backgroundVariant = 'default'
 } = Astro.props;
 
 const sectionClass = backgroundVariant === 'subtle' ? 'section-subtle' : 'section-standard';
 ---
 
 <section data-component="AsymmetricFeatureGrid" class={sectionClass}>
-  <div class="container-wide reveal">
-    <div class="mb-20">
-      {eyebrow && <span class="font-brand-heading eyebrow" set:html={formatText(eyebrow)}></span>}
-      <h2 class="font-brand-heading heading-lg max-w-3xl" set:html={formatText(heading)}></h2>
-    </div>
+ <div class="container-wide reveal">
+ <div class="mb-20">
+ {eyebrow && <span class="font-brand-heading eyebrow" set:html={formatText(eyebrow)}></span>}
+ <h2 class="font-brand-heading heading-lg max-w-3xl" set:html={formatText(heading)}></h2>
+ </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-12 lg:gap-24 items-start">
-      {features.map((feature, index) => (
-        <div class={`group flex flex-col ${index % 2 === 1 ? 'md:mt-24' : ''}`}>
-          <div class="relative overflow-hidden rounded-xl bg-zinc-900 border-2 border-white/20 mb-8 aspect-[4/5] md:aspect-[4/5] shadow-2xl">
-            <img 
-              src={feature.image} 
-              alt={feature.title} 
-              class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-80 mix-blend-luminosity"
-            />
-            <div class="absolute inset-0 bg-gradient-to-t from-brand-bg via-transparent to-transparent opacity-80"></div>
-          </div>
-          
-          <h3 class="font-brand-heading heading-md mb-4 group-hover:text-brand-secondary transition-colors" set:html={formatText(feature.title)}></h3>
-          <p class="font-brand-body body-md" set:html={formatText(feature.description)}></p>
-        </div>
-      ))}
-    </div>
-  </div>
+ <div class="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-12 lg:gap-24 items-start">
+ {features.map((feature, index) => (
+ <div class={`group flex flex-col ${index % 2 === 1 ? 'md:mt-24' : ''}`}>
+ <div class="relative overflow-hidden rounded-xl bg-zinc-900 border-2 border-white/20 mb-8 aspect-[4/5] md:aspect-[4/5] shadow-2xl">
+ <img 
+ src={feature.image} 
+ alt={feature.title} 
+ class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 mix-blend-luminosity"
+ />
+ <div class="absolute inset-0 bg-gradient-to-t from-brand-bg via-transparent to-transparent "></div>
+ </div>
+ 
+ <h3 class="font-brand-heading heading-md mb-4 group-hover:text-brand-secondary transition-colors" set:html={formatText(feature.title)}></h3>
+ <p class="font-brand-body body-md" set:html={formatText(feature.description)}></p>
+ </div>
+ ))}
+ </div>
+ </div>
 </section>

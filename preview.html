@@ -3,120 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Design Preview - A Narrative Lens</title>
+    <title>Sovereign Design Preview | A Narrative Lens</title>
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style type="text/tailwindcss">
         @theme {
-            --color-nl-emerald: #10b981;
-            --color-nl-slate: #334155;
-            --color-nl-bg: #f8fafc;
-            --color-nl-surface: #ffffff;
-            --color-nl-muted: #94a3b8;
+            --color-brand-primary: #46280e;
+            --color-brand-secondary: #afbd3b;
+            --color-brand-bg: #290a09;
+            --color-brand-accent: #6d7b00;
+            --color-brand-text: #fbf9f6;
             
-            --font-inter: "Inter", sans-serif;
+            --font-brand-heading: "Montserrat", sans-serif;
+            --font-brand-body: "Libre Baskerville", serif;
+        }
+        :root {
+            font-size: 20px;
         }
         body {
-            @apply bg-nl-bg text-nl-slate font-inter;
+            @apply bg-brand-bg text-brand-text font-brand-body antialiased selection:bg-brand-secondary selection:text-brand-bg;
         }
         h1, h2, h3, h4, h5, h6 {
-            @apply font-inter font-extrabold;
+            @apply font-brand-heading font-normal tracking-tight;
         }
-        .btn-direct {
-            @apply inline-flex items-center justify-center bg-nl-emerald text-white px-8 py-3 font-semibold rounded-lg shadow-md hover:bg-nl-emerald/90 transition-all cursor-pointer no-underline border-none;
+        .preview-section {
+            @apply py-20 border-b border-white/5;
         }
-        .card-strategic {
-            @apply bg-nl-surface border border-nl-slate/10 p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow;
+        .token-card {
+            @apply bg-white/5 rounded-2xl p-8 border border-white/5 hover:border-brand-secondary/30 transition-all duration-300;
+        }
+        .specimen-label {
+            @apply text-sm font-brand-heading font-bold uppercase tracking-[0.3em] text-brand-secondary mb-4 block;
         }
     </style>
 </head>
-<body class="p-8 md:p-16">
-    <header class="mb-16 border-b border-nl-slate/10 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-8">
-        <div>
-            <div class="text-nl-emerald font-bold uppercase tracking-widest text-xs mb-4">Strategic Visual Storytelling</div>
-            <h1 class="text-5xl md:text-7xl mb-4">A Narrative Lens</h1>
-            <p class="text-xl opacity-70 max-w-xl">Clarifying the distance between your business goals and your visual presence.</p>
+<body class="flex min-h-screen">
+    <!-- Sidebar Navigation -->
+    <aside class="fixed left-0 top-0 h-screen w-64 bg-black/20 border-r border-white/5 p-8 hidden lg:block">
+        <div class="mb-12">
+            <h1 class="text-xl font-black uppercase tracking-tighter mb-1">A Narrative Lens</h1>
+            <p class="text-[10px] font-bold opacity-40 uppercase tracking-widest">v1.3.0 • Design System</p>
         </div>
-        <button class="btn-direct">Start Your Audit</button>
-    </header>
+        <nav class="space-y-4 font-brand-heading text-xs font-bold uppercase tracking-widest">
+            <a href="#overview" class="block text-brand-secondary">01. Overview</a>
+            <a href="#colors" class="block opacity-40 hover:opacity-100 hover:text-brand-secondary transition-all">02. Color Palette</a>
+            <a href="#typography" class="block opacity-40 hover:opacity-100 hover:text-brand-secondary transition-all">03. Typography</a>
+            <a href="#components" class="block opacity-40 hover:opacity-100 hover:text-brand-secondary transition-all">04. Components</a>
+            <a href="#layout" class="block opacity-40 hover:opacity-100 hover:text-brand-secondary transition-all">05. Layout Rules</a>
+        </nav>
+        <div class="absolute bottom-8 left-8">
+            <button class="bg-brand-secondary text-brand-bg px-6 py-3 rounded-lg text-xs font-bold uppercase tracking-widest shadow-2xl">
+                Open in Stitch
+            </button>
+        </div>
+    </aside>
 
-    <section class="mb-16">
-        <h2 class="text-2xl mb-8 uppercase tracking-[0.2rem] opacity-40">Color Tokens</h2>
-        <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
-            <div class="space-y-2">
-                <div class="h-24 w-full bg-nl-emerald shadow-sm rounded-lg"></div>
-                <p class="text-sm font-bold">NL Emerald</p>
-                <p class="text-xs opacity-60">#10b981</p>
-            </div>
-            <div class="space-y-2">
-                <div class="h-24 w-full bg-nl-slate shadow-sm rounded-lg"></div>
-                <p class="text-sm font-bold">NL Slate</p>
-                <p class="text-xs opacity-60">#334155</p>
-            </div>
-            <div class="space-y-2">
-                <div class="h-24 w-full bg-nl-bg shadow-sm rounded-lg border border-nl-slate/5"></div>
-                <p class="text-sm font-bold">Clean Background</p>
-                <p class="text-xs opacity-60">#f8fafc</p>
-            </div>
-            <div class="space-y-2">
-                <div class="h-24 w-full bg-nl-surface shadow-sm rounded-lg border border-nl-slate/5"></div>
-                <p class="text-sm font-bold">High-Contrast Surface</p>
-                <p class="text-xs opacity-60">#ffffff</p>
-            </div>
-            <div class="space-y-2">
-                <div class="h-24 w-full bg-nl-muted shadow-sm rounded-lg"></div>
-                <p class="text-sm font-bold">Muted Secondary</p>
-                <p class="text-xs opacity-60">#94a3b8</p>
-            </div>
-        </div>
-    </section>
+    <!-- Main Content -->
+    <main class="lg:ml-64 flex-1 max-w-6xl mx-auto px-8 md:px-16">
+        
+        <!-- 01. Overview -->
+        <section id="overview" class="preview-section pt-32">
+            <span class="specimen-label">01. Overview</span>
+            <h2 class="text-6xl md:text-8xl font-black mb-8 leading-none">STRATEGIC <br/> & GROUNDED.</h2>
+            <p class="text-2xl opacity-70 max-w-3xl leading-relaxed">
+                A Narrative Lens (NL) is a technical and creative consultancy. The aesthetic is "High-Contrast & Cinematic," focusing on clarity, process, and long-term sovereign value.
+            </p>
+        </section>
 
-    <section class="mb-16 grid md:grid-cols-2 gap-16">
-        <div>
-            <h2 class="text-2xl mb-8 uppercase tracking-[0.2rem] opacity-40">Typography</h2>
-            <div class="space-y-12">
-                <div>
-                    <h3 class="text-6xl font-extrabold mb-4">Inter ExtraBold</h3>
-                    <p class="text-xs opacity-40 mb-6 tracking-widest uppercase">Heading Font</p>
-                    <p class="text-4xl">Grounded Clarity</p>
-                    <p class="text-4xl font-normal opacity-70">Strategic results first.</p>
-                </div>
-                <div>
-                    <h3 class="text-6xl font-normal mb-4">Inter Regular</h3>
-                    <p class="text-xs opacity-40 mb-6 tracking-widest uppercase">Body Font</p>
-                    <p class="text-xl leading-relaxed opacity-80">
-                        We build systems that scale with your business. Clean documentation, direct communication, and a focus on technical integrity are the pillars of the Narrative Lens experience.
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div>
-            <h2 class="text-2xl mb-8 uppercase tracking-[0.2rem] opacity-40">Components</h2>
-            <div class="space-y-8">
-                <div class="card-strategic">
-                    <div class="text-nl-emerald font-bold mb-2">01. Strategy Audit</div>
-                    <h4 class="text-2xl mb-4">Defining the Lens</h4>
-                    <p class="text-sm opacity-70 leading-relaxed mb-6">We identify the technical gaps in your current workflow and propose a scalable solution that integrates directly with your existing tools.</p>
-                    <a href="#" class="text-nl-emerald font-semibold flex items-center gap-2 group">
-                        Learn More <span class="group-hover:translate-x-1 transition-transform">→</span>
-                    </a>
-                </div>
-                <div class="flex gap-4">
-                    <div class="bg-nl-emerald text-white p-4 rounded-lg text-center flex-1">
-                        <div class="text-3xl font-bold mb-1">12+</div>
-                        <div class="text-[0.65rem] uppercase tracking-widest font-bold opacity-80">Sprints Completed</div>
+        <!-- 02. Color Palette -->
+        <section id="colors" class="preview-section">
+            <span class="specimen-label">02. Color Palette</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="token-card">
+                    <div class="h-48 w-full bg-brand-primary rounded-xl mb-6 shadow-2xl flex items-end p-6">
+                        <span class="text-white font-bold tracking-widest text-sm">#46280E</span>
                     </div>
-                    <div class="bg-nl-slate text-white p-4 rounded-lg text-center flex-1">
-                        <div class="text-3xl font-bold mb-1">100%</div>
-                        <div class="text-[0.65rem] uppercase tracking-widest font-bold opacity-80">Sync Accuracy</div>
+                    <h3 class="font-bold uppercase tracking-widest text-sm mb-2">Primary Brown</h3>
+                    <p class="text-sm opacity-60">The grounded foundation. Used for deep brand presence and secondary backgrounds.</p>
+                </div>
+                <div class="token-card">
+                    <div class="h-48 w-full bg-brand-secondary rounded-xl mb-6 shadow-2xl flex items-end p-6">
+                        <span class="text-brand-bg font-bold tracking-widest text-sm">#AFBD3B</span>
+                    </div>
+                    <h3 class="font-bold uppercase tracking-widest text-sm mb-2">Secondary Olive</h3>
+                    <p class="text-sm opacity-60">Action and growth. Used for high-contrast benefit boxes and CTAs.</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-8">
+                <div class="space-y-3">
+                    <div class="h-20 w-full bg-brand-bg rounded-lg border border-white/10 shadow-lg"></div>
+                    <p class="text-xs font-bold uppercase tracking-widest">Background Dark</p>
+                </div>
+                <div class="space-y-3">
+                    <div class="h-20 w-full bg-brand-text rounded-lg shadow-lg"></div>
+                    <p class="text-xs font-bold uppercase tracking-widest text-brand-text">Text Paper</p>
+                </div>
+                <div class="space-y-3">
+                    <div class="h-20 w-full bg-red-500 rounded-lg shadow-lg opacity-80"></div>
+                    <p class="text-xs font-bold uppercase tracking-widest">Problem State</p>
+                </div>
+                <div class="space-y-3">
+                    <div class="h-20 w-full bg-brand-accent rounded-lg shadow-lg"></div>
+                    <p class="text-xs font-bold uppercase tracking-widest">Active Accent</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 03. Typography -->
+        <section id="typography" class="preview-section">
+            <span class="specimen-label">03. Typography</span>
+            <div class="space-y-20">
+                <div>
+                    <p class="text-sm opacity-60 uppercase tracking-widest mb-8">Heading Specimen / Montserrat</p>
+                    <h3 class="text-9xl font-black mb-4 tracking-tighter uppercase">Aa Bb Cc</h3>
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div>
+                            <p class="text-4xl font-black mb-2 uppercase leading-none">Heading XL</p>
+                            <p class="text-xs opacity-60">Montserrat 900 / 8.5rem / 1.1 Leading</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold mb-2 uppercase">Heading LG</p>
+                            <p class="text-xs opacity-60">Montserrat 700 / 3.5rem / 1.2 Leading</p>
+                        </div>
+                        <div>
+                            <p class="text-xl font-bold mb-2 uppercase">Heading MD</p>
+                            <p class="text-xs opacity-60">Montserrat 700 / 1.5rem / 1.3 Leading</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-sm opacity-60 uppercase tracking-widest mb-8">Body Specimen / Libre Baskerville</p>
+                    <h3 class="text-8xl italic mb-8">Aa Bb Cc</h3>
+                    <div class="max-w-3xl">
+                        <p class="text-2xl leading-relaxed mb-6 italic font-bold text-brand-secondary">
+                            "The lens through which we view our business defines the clarity of our results."
+                        </p>
+                        <p class="text-xl leading-relaxed opacity-80">
+                            We believe in the power of narrative integrity. Every technical choice should serve the story you're telling your clients. Our systems are built to be invisible supports for visible impact.
+                        </p>
+                        <p class="text-xs opacity-40 mt-8 uppercase tracking-widest">Body LG / Libre Baskerville 400 / 1.25rem / 1.6 Leading</p>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <footer class="mt-32 pt-8 border-t border-nl-slate/10 text-center opacity-30 text-xs">
-        &copy; 2026 A NARRATIVE LENS. DESIGN MD PREVIEW.
-    </footer>
+        <!-- 04. Components -->
+        <section id="components" class="preview-section">
+            <span class="specimen-label">04. Components</span>
+            <div class="grid md:grid-cols-2 gap-16">
+                <div class="space-y-12">
+                    <div>
+                        <p class="text-sm opacity-60 uppercase tracking-widest mb-6 underline decoration-brand-secondary decoration-2 underline-offset-8">Primary CTA</p>
+                        <button class="bg-brand-secondary text-brand-bg px-12 py-5 font-brand-heading font-black rounded-xl text-xs uppercase tracking-widest shadow-2xl hover:scale-105 transition-all">
+                            Book Your Demo
+                        </button>
+                    </div>
+                    <div>
+                        <p class="text-sm opacity-60 uppercase tracking-widest mb-6 underline decoration-brand-secondary decoration-2 underline-offset-8">Secondary Action</p>
+                        <button class="border-2 border-white/20 text-white px-10 py-4 font-brand-heading font-bold rounded-xl text-xs uppercase tracking-widest hover:bg-white/5 transition-all">
+                            Explore The System
+                        </button>
+                    </div>
+                    <div>
+                        <p class="text-sm opacity-60 uppercase tracking-widest mb-6 underline decoration-brand-secondary decoration-2 underline-offset-8">Benefit Box</p>
+                        <div class="p-10 bg-brand-secondary rounded-3xl shadow-2xl max-w-sm">
+                            <span class="font-brand-heading text-brand-bg text-xs font-bold uppercase tracking-[0.2em] mb-3 block opacity-70">The Benefit:</span>
+                            <p class="font-brand-body text-brand-bg text-xl font-bold leading-tight">Clarity over chaos. Systems that support your scale.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-12">
+                    <div>
+                        <p class="text-sm opacity-60 uppercase tracking-widest mb-6 underline decoration-brand-secondary decoration-2 underline-offset-8">Sovereign Card</p>
+                        <div class="bg-brand-primary p-12 rounded-[2rem] border border-white/5 shadow-2xl">
+                            <span class="eyebrow !text-white opacity-50 text-[10px] uppercase tracking-[0.4em] block mb-4">Phase 01</span>
+                            <h4 class="text-2xl font-bold mb-6">Strategic Audit</h4>
+                            <p class="text-base opacity-70 leading-relaxed">Identifying technical gaps and establishing your growth baseline.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 05. Layout Rules -->
+        <section id="layout" class="preview-section">
+            <span class="specimen-label">05. Layout Rules</span>
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="space-y-6">
+                    <h4 class="text-xl font-bold uppercase tracking-widest">The "No 90s Frame" Rule</h4>
+                    <p class="text-base opacity-70 leading-relaxed">Sections should flow fluidly. Avoid horizontal dividers, card shadows, and hard borders that segment the experience. Use background color shifts and white space to define context.</p>
+                </div>
+                <div class="space-y-6">
+                    <h4 class="text-xl font-bold uppercase tracking-widest">Cinematic Spacing</h4>
+                    <p class="text-base opacity-70 leading-relaxed">Padding starts at `py-24`. Containers are strictly `max-w-7xl`. Heading margins are generous (`mb-10`) to allow typography to breathe.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="py-20 text-center opacity-20 text-[10px] font-brand-heading uppercase tracking-[1rem]">
+            &copy; 2026 A Narrative Lens • Sovereign Ecosystem
+        </footer>
+    </main>
 </body>
 </html>

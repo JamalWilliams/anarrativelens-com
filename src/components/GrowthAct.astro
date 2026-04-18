@@ -1,86 +1,76 @@
 ---
-import { formatText } from '../lib/textFormatter';
+import { formatText } from '../utils/textFormatter';
 
 interface Props {
-  act: string;
-  title: string;
-  subtitle?: string;
-  description: string;
-  features: string[];
-  price?: string;
-  setup?: string;
-  variant?: 'light-brown' | 'green';
-  ctaLink?: string;
-  ctaText?: string;
+ act: string;
+ title: string;
+ subtitle?: string;
+ description: string;
+ features: string[];
+ price?: string;
+ setup?: string;
+ variant?: 'light-brown' | 'green';
+ ctaLink?: string;
+ ctaText?: string;
 }
 
 const { 
-  act, 
-  title, 
-  subtitle,
-  description, 
-  features, 
-  price, 
-  setup, 
-  variant = 'light-brown',
-  ctaLink,
-  ctaText
+ act, 
+ title, 
+ subtitle,
+ description, 
+ features, 
+ price, 
+ setup, 
+ variant = 'light-brown',
+ ctaLink,
+ ctaText = "Explore More"
 } = Astro.props;
 
 const bgClass = variant === 'green' ? 'bg-brand-secondary' : 'bg-brand-primary';
 const textColorClass = variant === 'green' ? 'text-brand-bg' : 'text-brand-text';
-const headingColorClass = variant === 'green' ? 'text-brand-bg' : 'text-brand-heading';
-const eyebrowColorClass = variant === 'green' ? 'text-brand-bg' : 'text-white';
-
-const borderColorClass = variant === 'green' ? 'border-brand-bg/20' : 'border-white/20';
-const iconColorClass = variant === 'green' ? 'text-brand-bg' : 'text-brand-secondary';
+const headingColorClass = variant === 'green' ? 'text-brand-bg' : 'text-white';
+const pillClass = variant === 'green' ? 'bg-brand-bg/10 text-brand-bg border-brand-bg/20' : 'bg-brand-secondary text-white border-brand-secondary/30';
 ---
 
-<div data-component="GrowthAct" class={`${bgClass} ${borderColorClass} border-2 rounded-xl p-10 shadow-xl hover:scale-[1.02] transition-all duration-300 flex flex-col h-full reveal`}>
-  <div class="mb-8">
-    <span class={`font-brand-heading text-xl mb-4 tracking-wider uppercase ${eyebrowColorClass}`} set:html={formatText(act)}></span>
-    <h3 class={`font-brand-heading text-3xl mb-4 leading-tight ${headingColorClass}`} set:html={formatText(title)}></h3>
-    {subtitle && (
-      <p class={`font-brand-heading text-sm font-bold uppercase tracking-[0.2em] mb-6 ${textColorClass}`} set:html={formatText(subtitle)}></p>
-    )}
-    <p class={`font-brand-body text-lg leading-relaxed ${textColorClass}`} set:html={formatText(description)}></p>
-  </div>
-  
-  <ul class="space-y-4 mb-12 flex-grow">
-    {features.map((feature) => (
-      <li class="flex items-start group">
-        <svg class={`w-6 h-6 mr-3 shrink-0 ${iconColorClass} group-hover:scale-125 transition-transform`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-        </svg>
-        <span class={`font-brand-body text-sm ${textColorClass} font-medium group-hover:text-white transition-colors`} set:html={formatText(feature)}></span>
-      </li>
-    ))}
-  </ul>
+<div data-component="GrowthAct" class={`${bgClass} rounded-2xl p-10 shadow-2xl hover:scale-[1.02] transition-all duration-500 flex flex-col h-full reveal border-2 border-white/5`}>
+ <div class="mb-10 flex flex-col items-start">
+ <span class={`inline-block px-4 py-1.5 rounded-xl text-[10px] font-brand-heading font-bold tracking-[0.2em] uppercase border mb-8 ${pillClass}`} set:html={formatText(act)}></span>
+ <h3 class={`font-brand-heading text-3xl md:text-4xl mb-6 leading-tight uppercase tracking-tight ${headingColorClass}`} style="font-weight: 800;" set:html={formatText(title)}></h3>
+ <p class={`font-brand-body text-lg leading-relaxed opacity-90 ${textColorClass}`} set:html={formatText(description)}></p>
+ </div>
+ 
+ <ul class="space-y-5 mb-12 flex-grow">
+ {features.map((feature) => (
+ <li class="flex items-start group">
+ <div class={`w-2 h-2 rounded-full mr-4 mt-2.5 shrink-0 ${variant === 'green' ? 'bg-brand-bg' : 'bg-brand-secondary'} group-hover:scale-150 transition-transform shadow-lg`}></div>
+ <span class={`font-brand-body text-base ${textColorClass} opacity-80 group-hover:opacity-100 transition-all`} set:html={formatText(feature)}></span>
+ </li>
+ ))}
+ </ul>
 
+ <div class="mt-auto pt-8 border-t border-white/10 flex flex-col gap-6">
   {(price || setup) && (
-    <div class={`pt-8 border-t ${borderColorClass} mt-auto`}>
+    <div class="flex flex-col gap-1">
       {price && (
-        <div class={`font-brand-heading text-4xl font-bold ${headingColorClass}`}>
+        <div class={`font-brand-heading text-4xl font-bold tracking-tight ${headingColorClass}`}>
           {price}
-          <span class={`font-brand-body text-sm font-normal ${textColorClass} ml-1`}>/mo</span>
+          <span class={`font-brand-body text-sm font-normal ${textColorClass} opacity-60 ml-1`}>/mo</span>
         </div>
       )}
-      {setup && <div class={`font-brand-body text-sm ${textColorClass} mt-2 font-medium`}>{setup} setup</div>}
-      
-      {(ctaLink || ctaText) && (
-        <div class="mt-8">
-          <a 
-            href={ctaLink || "#"} 
-            class={`block w-full text-center py-4 rounded-xl font-brand-heading font-bold transition-all shadow-lg hover:shadow-2xl hover:scale-105 ${
-              variant === 'green' 
-                ? 'bg-brand-bg text-brand-text' 
-                : 'bg-brand-secondary text-brand-bg'
-            }`}
-          >
-            {ctaText}
-          </a>
-        </div>
-      )}
+      {setup && <div class={`font-brand-body text-xs ${textColorClass} opacity-60 uppercase tracking-widest font-bold`}>{setup} setup</div>}
     </div>
   )}
+
+  <a 
+    href={ctaLink || "#"} 
+    class={`font-brand-heading text-xs font-bold uppercase tracking-[0.2em] pb-1 border-b-2 transition-all self-start ${
+    variant === 'green' 
+    ? 'text-brand-bg border-brand-bg/30 hover:border-brand-bg' 
+    : 'text-brand-secondary border-brand-secondary/30 hover:border-brand-secondary'
+    }`}
+  >
+    {ctaText}
+  </a>
+ </div>
 </div>

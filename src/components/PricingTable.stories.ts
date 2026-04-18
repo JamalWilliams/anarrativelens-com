@@ -48,7 +48,7 @@ export const Default: Story = {
       },
       {
         id: '3',
-        title: 'Breakthrough',
+        title: 'Break Through',
         description: 'Amplify your brand authority and build a lasting community.',
         features: [
           'Course & Community Platform',
