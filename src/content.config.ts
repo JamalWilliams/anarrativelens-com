@@ -6,7 +6,7 @@ import path from 'node:path';
 const VAULT_PATH = process.env.VAULT_CONTENT_PATH || '/Users/jamalwilliams/Vault/Websites/anarrativelens.com';
 
 const pages = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: path.join(VAULT_PATH, "pages") }),
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "/Users/jamalwilliams/Vault/Websites/anarrativelens.com/pages" }),
   schema: z.object({
     title: z.string(),
     hero: z.object({
@@ -195,6 +195,7 @@ const pages = defineCollection({
           price: z.string(),
           description: z.string(),
           category: z.string(),
+          image: z.string().optional(),
           link: z.string().optional(),
         })),
         backgroundVariant: z.enum(["default", "subtle"]).default("default"),
@@ -236,7 +237,7 @@ const pages = defineCollection({
 });
 
 const posts = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: path.join(VAULT_PATH, "posts") }),
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "/Users/jamalwilliams/Vault/Websites/anarrativelens.com/posts" }),
   schema: z.object({
     title: z.string(),
     pubDate: z.date().optional(),
@@ -251,7 +252,7 @@ const posts = defineCollection({
 });
 
 const testimonials = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx,json}", base: path.join(VAULT_PATH, "data", "testimonials") }),
+  loader: glob({ pattern: "**/*.{md,mdx,json}", base: "/Users/jamalwilliams/Vault/Websites/anarrativelens.com/data/testimonials" }),
   schema: z.object({
     name: z.string(),
     role: z.string(),
@@ -262,7 +263,7 @@ const testimonials = defineCollection({
 });
 
 const projects = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx,json}", base: path.join(VAULT_PATH, "data", "projects") }),
+  loader: glob({ pattern: "**/*.{md,mdx,json}", base: "/Users/jamalwilliams/Vault/Websites/anarrativelens.com/data/projects" }),
   schema: z.object({
     title: z.string(),
     category: z.string(),
@@ -274,7 +275,7 @@ const projects = defineCollection({
 });
 
 const features = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx,json}", base: path.join(VAULT_PATH, "data", "features") }),
+  loader: glob({ pattern: "**/*.{md,mdx,json}", base: "/Users/jamalwilliams/Vault/Websites/anarrativelens.com/data/features" }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
@@ -284,7 +285,7 @@ const features = defineCollection({
 });
 
 const pricing = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx,json}", base: path.join(VAULT_PATH, "data", "pricing") }),
+  loader: glob({ pattern: "**/*.{md,mdx,json}", base: "/Users/jamalwilliams/Vault/Websites/anarrativelens.com/data/pricing" }),
   schema: z.object({
     title: z.string(),
     subtitle: z.string().optional(),
@@ -300,4 +301,16 @@ const pricing = defineCollection({
   }),
 });
 
-export const collections = { pages, posts, testimonials, projects, features, pricing };
+const products_collection = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "/Users/jamalwilliams/Vault/Websites/anarrativelens.com/products" }),
+  schema: z.object({
+    title: z.string(),
+    price: z.string(),
+    category: z.string(),
+    image: z.string(),
+    description: z.string(),
+    checkoutUrl: z.string(),
+  }),
+});
+
+export const collections = { pages, posts, testimonials, projects, features, pricing, products: products_collection };

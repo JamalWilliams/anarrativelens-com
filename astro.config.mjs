@@ -4,6 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 import icon from "astro-icon";
 
 // https://astro.build/config
+// Triggering rebuild for schema sync
 export default defineConfig({
   site: 'https://anarrativelens.com',
   integrations: [icon()],

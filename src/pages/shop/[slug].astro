@@ -1,0 +1,52 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/Hero.astro';
+
+export async function getStaticPaths() {
+  const products = await getCollection('products');
+  return products.map(product => ({
+    params: { slug: product.id },
+    props: { product },
+  }));
+}
+
+const { product } = Astro.props;
+const { Content } = await render(product);
+const { title, price, category, image, description, checkoutUrl } = product.data;
+
+const hero = {
+  heading: title.toUpperCase(),
+  subheading: `${category} | ${price}`,
+  text: description,
+  backgroundImage: image
+};
+---
+
+<Layout title={`${title} - A Narrative Lens`}>
+  <Hero 
+    heading={hero.heading}
+    subheading={hero.subheading}
+    text={hero.text}
+    backgroundImage={hero.backgroundImage}
+    cta="Buy Now"
+    ctaLink={checkoutUrl}
+  />
+
+  <main class="max-w-4xl mx-auto py-24 px-6">
+    <div class="prose prose-lg prose-invert mx-auto 
+      prose-headings:font-brand-heading prose-headings:font-bold
+      prose-p:font-brand-body prose-p:text-white/80
+      prose-li:font-brand-body prose-li:text-white/80
+      prose-strong:text-brand-secondary">
+      <Content />
+    </div>
+
+    <div class="mt-16 pt-16 border-t border-white/10 flex flex-col items-center">
+        <p class="text-white/60 mb-8 font-brand-body italic">Ready to transform your business?</p>
+        <a href={checkoutUrl} class="px-12 py-4 rounded-xl font-brand-heading font-bold uppercase tracking-widest text-white bg-brand-secondary hover:scale-105 active:scale-95 transition-all shadow-xl text-lg">
+            Invest in {title} — {price}
+        </a>
+    </div>
+  </main>
+</Layout>

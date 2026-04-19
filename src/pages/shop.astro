@@ -1,41 +1,44 @@
 ---
-import { getSiteConfig } from '../lib/config';
+import { getEntry, getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
 import SectionRenderer from '../components/SectionRenderer.astro';
+import ProductGrid from '../components/ProductGrid.astro';
 
-const config = await getSiteConfig();
+const entry = await getEntry('pages', 'shop');
+const products = await getCollection('products');
 
-const pageData = {
-  title: "Shop",
-  hero: {
-    heading: "The **Sovereign** Store.",
-    subheading: "Strategic Assets, Toolkits, and Guides for the Modern Architect.",
-    backgroundImage: config.brand.heroBackgrounds?.shop || ""
-  },
-  sections: [
-    {
-      type: "product-grid",
-      products: [
-        {
-          title: "The Growth Story System",
-          price: "$297",
-          description: "The complete 3-Act framework for scaling your digital brand.",
-          category: "System",
-          link: "/the-growth-story-system"
-        },
-        {
-          title: "The Content Engine",
-          price: "$97",
-          description: "A plug-and-play Obsidian toolkit for managing your digital narrative.",
-          category: "Toolkit",
-          link: "/contact"
-        }
-      ]
-    }
-  ]
-};
+if (!entry) {
+  return Astro.redirect('/404');
+}
+
+const { title, hero, sections } = entry.data;
+
+// Map the products collection to the format expected by ProductGrid
+const mappedProducts = products.map(p => ({
+    title: p.data.title,
+    price: p.data.price,
+    description: p.data.description,
+    category: p.data.category,
+    image: `${p.data.image}?v=${Date.now()}`,
+    link: `/shop/${p.id}`
+}));
 ---
 
-<Layout title={pageData.title}>
-  <SectionRenderer sections={pageData.sections} hero={pageData.hero} />
+<Layout title={title}>
+  {hero && (
+    <Hero 
+      heading={hero.heading}
+      subheading={hero.subheading}
+      text={hero.text}
+      backgroundImage={hero.backgroundImage}
+    />
+  )}
+  
+  <SectionRenderer sections={sections?.filter(s => s.type !== 'product-grid')} />
+  
+  <ProductGrid products={mappedProducts} />
+
+  {/* Render any sections after the product grid */}
+  <SectionRenderer sections={sections?.filter(s => s.type === 'header-section' && sections.indexOf(s) > sections.findIndex(s => s.type === 'product-grid'))} />
 </Layout>
