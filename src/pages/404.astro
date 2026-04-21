@@ -1,0 +1,36 @@
+---
+import { getEntry } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import SectionRenderer from '../components/SectionRenderer.astro';
+
+const entry = await getEntry('pages', '404');
+
+const title = entry?.data?.title || "Page Not Found";
+const sections = entry?.data?.sections || [
+  {
+    type: 'hero',
+    heading: '404',
+    subheading: 'Outside the Frame',
+    text: 'Every story has a beginning, but this path has reached its end. The frame has shifted.',
+    cta: 'Back to the Story',
+    ctaLink: '/'
+  }
+];
+---
+
+<Layout title={title}>
+    {sections.map(section => (
+        section.type === 'hero' ? (
+            <Hero 
+                heading={section.heading}
+                subheading={section.subheading}
+                text={section.text}
+                cta={section.cta}
+                ctaLink={section.ctaLink}
+                backgroundImage={section.backgroundImage}
+            />
+        ) : null
+    ))}
+    <SectionRenderer sections={sections.filter(s => s.type !== 'hero')} />
+</Layout>
