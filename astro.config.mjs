@@ -28,11 +28,7 @@ export default defineConfig({
         interval: 100,
       },
       fs: {
-        allow: [
-          '.',
-          '/Users/jamalwilliams/Vault/Websites/anarrativelens.com/media',
-          process.env.VAULT_CONTENT_PATH || ''
-        ]
+        allow: ['.']
       }
     }
   }

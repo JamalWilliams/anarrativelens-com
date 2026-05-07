@@ -3,10 +3,10 @@ import { glob } from 'astro/loaders';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
-const VAULT_PATH = process.env.VAULT_CONTENT_PATH || '/Users/jamalwilliams/Vault/Websites/anarrativelens.com';
+const contentPath = path.resolve('./src/content');
 
 const pages = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: "/Users/jamalwilliams/Vault/Websites/anarrativelens.com/pages" }),
+  loader: glob({ pattern: "**/*.{md,mdx}", base: path.join(contentPath, "pages") }),
   schema: z.object({
     title: z.string(),
     hero: z.object({
@@ -237,7 +237,7 @@ const pages = defineCollection({
 });
 
 const posts = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: "/Users/jamalwilliams/Vault/Websites/anarrativelens.com/posts" }),
+  loader: glob({ pattern: "**/*.{md,mdx}", base: path.join(contentPath, "posts") }),
   schema: z.object({
     title: z.string(),
     pubDate: z.date().optional(),
@@ -252,7 +252,7 @@ const posts = defineCollection({
 });
 
 const testimonials = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx,json}", base: "/Users/jamalwilliams/Vault/Websites/anarrativelens.com/data/testimonials" }),
+  loader: glob({ pattern: "**/*.{md,mdx,json}", base: path.join(contentPath, "data/testimonials") }),
   schema: z.object({
     name: z.string(),
     role: z.string(),
@@ -263,7 +263,7 @@ const testimonials = defineCollection({
 });
 
 const projects = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx,json}", base: "/Users/jamalwilliams/Vault/Websites/anarrativelens.com/data/projects" }),
+  loader: glob({ pattern: "**/*.{md,mdx,json}", base: path.join(contentPath, "data/projects") }),
   schema: z.object({
     title: z.string(),
     category: z.string(),
@@ -275,7 +275,7 @@ const projects = defineCollection({
 });
 
 const features = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx,json}", base: "/Users/jamalwilliams/Vault/Websites/anarrativelens.com/data/features" }),
+  loader: glob({ pattern: "**/*.{md,mdx,json}", base: path.join(contentPath, "data/features") }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
@@ -285,7 +285,7 @@ const features = defineCollection({
 });
 
 const pricing = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx,json}", base: "/Users/jamalwilliams/Vault/Websites/anarrativelens.com/data/pricing" }),
+  loader: glob({ pattern: "**/*.{md,mdx,json}", base: path.join(contentPath, "data/pricing") }),
   schema: z.object({
     title: z.string(),
     subtitle: z.string().optional(),
@@ -302,7 +302,7 @@ const pricing = defineCollection({
 });
 
 const products_collection = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: "/Users/jamalwilliams/Vault/Websites/anarrativelens.com/products" }),
+  loader: glob({ pattern: "**/*.{md,mdx}", base: path.join(contentPath, "products") }),
   schema: z.object({
     title: z.string(),
     price: z.string(),
