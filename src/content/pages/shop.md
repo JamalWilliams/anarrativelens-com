@@ -15,6 +15,12 @@ sections:
   backgroundVariant: subtle
 - type: product-grid
   products:
+    - title: "SESO PM Schema & Process Set"
+      price: "$29"
+      description: "A PostgreSQL and TypeScript blueprint for project state that AI agents can read, update, and verify without drifting from human intent."
+      category: "Agentic Systems"
+      image: "/media/seso-pm-schema.png"
+      link: "/shop/seso-pm-schema"
     - title: "Brand Identity Blueprint"
       price: "$25"
       description: "Unlock a powerful brand identity with this step-by-step worksheet. Define your mission, values, and visual elements to attract your ideal clients."

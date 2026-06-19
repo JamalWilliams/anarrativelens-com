@@ -49,7 +49,7 @@ export const SubtleBackground: Story = {
     rows: [
       { 
         title: 'Architecture', 
-        description: 'Headless Astro framework integrated with Obsidian-as-CMS for zero-sync, high-performance content management.' 
+        description: 'Headless Astro framework using repository-local content for reliable builds and deploy previews.' 
       },
       { 
         title: 'Automation', 

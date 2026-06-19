@@ -15,14 +15,20 @@ if (!entry) {
 const { title, hero, sections } = entry.data;
 
 // Map the products collection to the format expected by ProductGrid
-const mappedProducts = products.map(p => ({
+const mappedProducts = products
+  .sort((a, b) => {
+    if (a.id === 'seso-pm-schema') return -1;
+    if (b.id === 'seso-pm-schema') return 1;
+    return a.data.title.localeCompare(b.data.title);
+  })
+  .map(p => ({
     title: p.data.title,
     price: p.data.price,
     description: p.data.description,
     category: p.data.category,
     image: `${p.data.image}?v=${Date.now()}`,
     link: `/shop/${p.id}`
-}));
+  }));
 ---
 
 <Layout title={title}>

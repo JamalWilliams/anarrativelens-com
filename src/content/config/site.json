@@ -1,0 +1,59 @@
+{
+  "brand": {
+    "name": "A Narrative Lens",
+    "tagline": "Find your voice. Tell your story. Transform your business.",
+    "logo": "/media/a-narrative-lens-logo-white.webp",
+    "profile": "/media/jamal-profile.jpg",
+    "colors": {
+      "primary": "#46280f",
+      "secondary": "#afbd3b",
+      "background": "#290a09",
+      "backgroundAlt": "#46280f",
+      "backgroundLight": "#fbf9f6",
+      "accent": "#6d7b00",
+      "dark": "#010101",
+      "bodyText": "#fbf9f6",
+      "headingText": "#fbf9f6"
+    },
+    "fonts": {
+      "heading": "Montserrat",
+      "body": "Libre Baskerville"
+    },
+    "heroBackgrounds": {
+      "insights": "/media/hero-bg.jpg",
+      "contact": "/media/hero-bg.jpg",
+      "shop": "/media/hero-bg.jpg"
+    }
+  },
+  "navigation": [
+    {
+      "label": "The System",
+      "path": "/the-growth-story-system",
+      "children": [
+        { "label": "Act 1: The Foundation", "path": "/the-growth-story-system/act-1-set-the-stage" },
+        { "label": "Act 2: Rapid Growth", "path": "/the-growth-story-system/act-2-rising-action" },
+        { "label": "Act 3: Breakthrough", "path": "/the-growth-story-system/act-3-breakthrough" }
+      ]
+    },
+    {
+      "label": "Insights",
+      "path": "/insights"
+    },
+    {
+      "label": "Shop",
+      "path": "/shop"
+    },
+    {
+      "label": "About",
+      "path": "/about"
+    },
+    {
+      "label": "Contact",
+      "path": "/contact"
+    }
+  ],
+  "contact": {
+    "email": "jamal@anarrativelens.com",
+    "phone": "(313) 418-9544"
+  }
+}

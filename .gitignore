@@ -29,3 +29,4 @@ storybook-server/
 
 # jetbrains setting folder
 .idea/
+graphify-out/
